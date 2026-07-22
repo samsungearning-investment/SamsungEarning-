@@ -1,1 +1,3228 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Samsung Earning Platform</title>
+  <meta name="description" content="Samsung Earning Platform — Invest in Samsung packages and earn daily income automatically."/>
+  <meta property="og:title" content="Samsung Earning Platform"/>
+  <meta property="og:description" content="Invest in Samsung packages and earn daily income automatically. Referral bonuses, daily check-in, fast withdrawals."/>
+  <meta property="og:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9bues0.jpg"/>
+  <meta property="og:url" content="https://samsung-earning.onspace.app"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Samsung Earning Platform"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Samsung Earning Platform"/>
+  <meta name="twitter:description" content="Invest in Samsung packages and earn daily income automatically."/>
+  <meta name="twitter:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9bues0.jpg"/>
+  <meta name="twitter:url" content="https://samsung-earning.onspace.app"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            samsung: { blue: '#1428A0', dark: '#0A0F2E', mid: '#111827', card: '#1a2035', border: '#2a3a5c', light: '#4a6fa5', gold: '#FFD700', goldLight: '#FFF3B0' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0A0F2E; color: #fff; overflow-x: hidden; }
+    .view { display: none; }
+    .view.active { display: flex; flex-direction: column; min-height: 100vh; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; }
+    .page-content { padding-bottom: 80px; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0A0F2E; } ::-webkit-scrollbar-thumb { background: #1428A0; border-radius: 2px; }
+    .gradient-gold { background: linear-gradient(135deg, #FFD700, #FFA500); }
+    .gradient-blue { background: linear-gradient(135deg, #1428A0, #2563eb); }
+    .card-glow { box-shadow: 0 0 20px rgba(20,40,160,0.3); }
+    .gold-glow { box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+    .pkg-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .pkg-card:active { transform: scale(0.98); }
+    .btn-primary { background: linear-gradient(135deg, #1428A0, #2563eb); color: #fff; border: none; cursor: pointer; transition: opacity 0.2s, transform 0.15s; }
+    .btn-primary:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0A0F2E; border: none; cursor: pointer; font-weight: 700; transition: opacity 0.2s, transform 0.15s; }
+    .btn-gold:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-mtn { background: linear-gradient(135deg, #FFD700, #FFC200); color: #1a0a00; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+    .btn-mtn:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-airtel { background: linear-gradient(135deg, #e60000, #cc0000); color: #fff; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+    .btn-airtel:active { opacity: 0.85; transform: scale(0.98); }
+    .input-field { background: #1a2035; border: 1px solid #2a3a5c; color: #fff; outline: none; transition: border-color 0.2s; }
+    .input-field:focus { border-color: #1428A0; }
+    .input-field::placeholder { color: #6b7280; }
+    .phone-input-wrap { display: flex; align-items: center; background: #1a2035; border: 1px solid #2a3a5c; border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+    .phone-input-wrap:focus-within { border-color: #1428A0; }
+    .phone-prefix { display: flex; align-items: center; gap: 5px; padding: 0 10px; border-right: 1px solid #2a3a5c; white-space: nowrap; background: #111827; height: 100%; min-height: 48px; }
+    .phone-input-wrap input { background: transparent; border: none; outline: none; color: #fff; padding: 12px 12px; flex: 1; font-size: 14px; }
+    .phone-input-wrap input::placeholder { color: #6b7280; }
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 90vw; text-align: center; }
+    .toast.show { opacity: 1; }
+    .badge-active { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-pending { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+    .badge-paid { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-expired { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .nav-item { transition: color 0.2s; cursor: pointer; }
+    .nav-item.active-nav { color: #FFD700; }
+    .nav-item:not(.active-nav) { color: #6b7280; }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.80); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .modal-box { background: #1a2035; border: 1px solid #2a3a5c; border-radius: 20px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
+    .tab-btn { transition: all 0.2s; cursor: pointer; }
+    .tab-btn.active-tab { background: linear-gradient(135deg, #1428A0, #2563eb); color: #fff; }
+    .tab-btn:not(.active-tab) { background: #111827; color: #6b7280; }
+    .progress-bar { height: 6px; background: #2a3a5c; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #1428A0, #FFD700); border-radius: 3px; transition: width 0.4s; }
+    select option { background: #1a2035; color: #fff; }
+    .network-option { border: 2px solid transparent; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
+    .network-option.selected-mtn { border-color: #FFD700; background: rgba(255,215,0,0.08); }
+    .network-option.selected-airtel { border-color: #e60000; background: rgba(230,0,0,0.08); }
+    .network-option:active { transform: scale(0.97); }
+    .mtn-logo { background: linear-gradient(135deg, #FFD700, #FFC200); }
+    .airtel-logo { background: linear-gradient(135deg, #e60000, #cc0000); }
+    .flower-auth-btn { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 22px; transition: all 0.2s; z-index: 10; }
+    .flower-auth-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+    textarea.input-field { resize: vertical; }
+  </style>
+</head>
+<body>
+
+<!-- ======= TOAST ======= -->
+<div id="toast" class="toast"></div>
+
+<!-- ================================================================
+     VIEW: AUTH (Login / Create Account)
+================================================================ -->
+<div id="view-auth" class="view active flex-col items-center justify-center min-h-screen px-4 py-8 relative" style="background: linear-gradient(160deg, #0A0F2E 0%, #1428A0 50%, #0A0F2E 100%);">
+
+  <!-- Admin Flower Button — top right of auth screen -->
+  <button class="flower-auth-btn" id="flowerAuthBtn" title="Admin Login" onclick="openAdminLogin()">🌸</button>
+
+  <div class="w-full max-w-sm">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl gradient-blue mb-4 card-glow">
+        <span class="text-4xl font-black text-white">S</span>
+      </div>
+      <h1 class="text-2xl font-black text-white tracking-wide">SAMSUNG</h1>
+      <p class="text-samsung-gold font-semibold text-sm tracking-widest">EARNING PLATFORM</p>
+    </div>
+
+    <!-- Tab Switch -->
+    <div class="flex rounded-xl overflow-hidden mb-6 border border-white/20">
+      <button class="flex-1 py-3 text-sm font-semibold tab-btn active-tab" id="tabLogin" onclick="switchAuthTab(&#39;login&#39;)">Login</button>
+      <button class="flex-1 py-3 text-sm font-semibold tab-btn" id="tabRegister" onclick="switchAuthTab(&#39;register&#39;)">Create Account</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="formLogin">
+      <div class="space-y-4">
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Phone Number</label>
+          <div class="phone-input-wrap">
+            <div class="phone-prefix">
+              <span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span>
+            </div>
+            <input type="tel" id="loginPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Password</label>
+          <input type="password" id="loginPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Your password"/>
+        </div>
+        <button class="btn-primary w-full py-4 rounded-xl font-bold text-base" onclick="doLogin()">Login</button>
+      </div>
+    </div>
+
+    <!-- Create Account Form -->
+    <div id="formRegister" style="display:none">
+      <div class="space-y-4">
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Full Name</label>
+          <input type="text" id="regName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Your full name"/>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Phone Number</label>
+          <div class="phone-input-wrap">
+            <div class="phone-prefix">
+              <span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span>
+            </div>
+            <input type="tel" id="regPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Create Password</label>
+          <input type="password" id="regPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Create a strong password"/>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Referral Code (optional)</label>
+          <input type="text" id="regRef" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Enter referral code if invited"/>
+        </div>
+        <button class="btn-primary w-full py-4 rounded-xl font-bold text-base" onclick="doRegister()">Create Account</button>
+      </div>
+    </div>
+
+    <p class="text-center text-blue-200/60 text-xs mt-6">Need help? <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="text-samsung-gold">Join Telegram Support</a></p>
+  </div>
+</div>
+
+<!-- ================================================================
+     RULES POPUP
+================================================================ -->
+<div id="rulesModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6">
+    <div class="text-center mb-5">
+      <div class="text-4xl mb-2">📋</div>
+      <h2 class="text-xl font-black text-white">Platform Rules</h2>
+      <p class="text-gray-400 text-xs mt-1">Please read before continuing</p>
+    </div>
+    <div class="space-y-4 text-sm">
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">1. Daily Bonus</h3>
+        <p class="text-gray-300">Check in daily to get <span class="text-green-400 font-bold">+100 UGX</span> automatically credited to your balance.</p>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">2. Referral Earnings</h3>
+        <div class="space-y-1 text-gray-300">
+          <p>🟢 <strong class="text-white">L1 Direct:</strong> 30% — unlimited people</p>
+          <p>🔵 <strong class="text-white">L2:</strong> 2% on 1st person of L1</p>
+          <p>🟣 <strong class="text-white">L3:</strong> 1% on 1st person of L2</p>
+          <p>⚫ <strong class="text-white">L4+:</strong> 0%</p>
+          <p class="text-yellow-400 text-xs mt-2">⚠ Commission paid only after package purchase is approved</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">3. Payment &amp; Withdrawal</h3>
+        <div class="text-gray-300 space-y-1">
+          <p>• Pay via MTN or Airtel Money, upload proof then press SUBMIT</p>
+          <p>• Minimum Withdrawal: <span class="text-white font-bold">7,000 UGX</span></p>
+          <p>• Tax: <span class="text-red-400 font-bold">18%</span> on every withdrawal</p>
+          <p>• Max <span class="text-white font-bold">2 withdrawals</span> per day</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">4. General Rules</h3>
+        <div class="text-gray-300 space-y-1">
+          <p>• 1 account per person</p>
+          <p>• Fake payments = <span class="text-red-400 font-bold">Ban</span></p>
+          <p>• Fake referrals = <span class="text-red-400 font-bold">Ban</span></p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-gold w-full py-4 rounded-xl font-black text-base mt-6" onclick="closeRules()">I Understand — Continue ✓</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     MAIN APP WRAPPER
+================================================================ -->
+<div id="appWrapper" style="display:none">
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="bottom-nav bg-samsung-mid border-t border-samsung-border">
+    <div class="flex items-center justify-around py-2">
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1 active-nav" id="nav-home" onclick="gotoPage(&#39;home&#39;)">
+        <i class="fas fa-home text-xl"></i><span class="text-xs font-medium">Home</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-packages" onclick="gotoPage(&#39;packages&#39;)">
+        <i class="fas fa-mobile-alt text-xl"></i><span class="text-xs font-medium">Packages</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-team" onclick="gotoPage(&#39;team&#39;)">
+        <i class="fas fa-users text-xl"></i><span class="text-xs font-medium">My Team</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-withdraw" onclick="gotoPage(&#39;withdraw&#39;)">
+        <i class="fas fa-wallet text-xl"></i><span class="text-xs font-medium">Withdraw</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-mine" onclick="gotoPage(&#39;mine&#39;)">
+        <i class="fas fa-user-circle text-xl"></i><span class="text-xs font-medium">Mine</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================================================================
+       PAGE: HOME
+  ================================================================ -->
+  <div id="page-home" class="view active page-content">
+    <!-- Header -->
+    <div class="gradient-blue px-4 pt-8 pb-16">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <p class="text-blue-200 text-xs font-medium">Welcome back 👋</p>
+          <h2 class="text-white font-bold text-lg" id="homeUserName">Loading...</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition">
+            <i class="fab fa-telegram text-white text-lg"></i>
+          </a>
+          <button onclick="shareApp()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition">
+            <i class="fas fa-share-alt text-white text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Balance Card -->
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20">
+        <p class="text-blue-200 text-xs mb-1">Total Balance</p>
+        <h3 class="text-3xl font-black text-white mb-1" id="homeBalance">0 UGX</h3>
+        <p class="text-blue-200 text-xs" id="homePhone">---</p>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="px-4 -mt-8">
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">💰</div>
+          <p class="text-gray-400 text-xs">Today Earned</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeTodayEarned">0</p>
+        </div>
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">📦</div>
+          <p class="text-gray-400 text-xs">Active Pkgs</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeActivePkgs">0</p>
+        </div>
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">👥</div>
+          <p class="text-gray-400 text-xs">My Referrals</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeReferrals">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referral Code -->
+    <div class="px-4 mt-5">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-white text-sm">Your Referral Code</h3>
+          <span class="text-xs text-gray-400">Earn 30% per invite</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex-1 bg-samsung-dark rounded-xl px-3 py-2 border border-samsung-border">
+            <p class="text-samsung-gold font-mono font-bold text-base" id="homeRefCode">---</p>
+          </div>
+          <button onclick="copyRefCode()" class="btn-primary px-4 py-2 rounded-xl text-sm font-semibold">Copy</button>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <button onclick="shareRefLink()" class="flex-1 btn-gold py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+            <i class="fas fa-share-alt text-xs"></i> Share Link
+          </button>
+          <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="flex-1 py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 bg-blue-500/20 border border-blue-500/30 text-blue-300">
+            <i class="fab fa-telegram text-xs"></i> Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Packages -->
+    <div class="px-4 mt-5 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-white">Active Packages</h3>
+        <button onclick="gotoPage(&#39;my-products&#39;)" class="text-samsung-gold text-xs font-medium">View All →</button>
+      </div>
+      <div id="homeActivePkgList" class="space-y-3"></div>
+    </div>
+
+    <!-- Company Payment Numbers -->
+    <div class="px-4 mb-6">
+      <h3 class="font-bold text-white text-sm mb-3">📱 Company Payment Numbers</h3>
+      <!-- MTN -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden mb-3">
+        <button onclick="togglePayNum(&#39;mtn&#39;)" class="w-full flex items-center gap-3 p-4">
+          <div class="w-12 h-12 mtn-logo rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="text-black font-black text-xs text-center leading-tight">MTN<br/>Money</span>
+          </div>
+          <div class="flex-1 text-left">
+            <p class="text-white font-bold text-sm">MTN Mobile Money</p>
+            <p class="text-gray-400 text-xs">Tap to see number</p>
+          </div>
+          <i class="fas fa-chevron-down text-gray-400 text-sm" id="mtnChevron"></i>
+        </button>
+        <div id="mtnDetails" class="px-4 pb-4" style="display:none">
+          <div class="bg-samsung-dark rounded-xl p-3 flex items-center justify-between">
+            <div>
+              <p class="text-white font-bold">0782031407</p>
+              <p class="text-gray-400 text-xs">Kyosiimire Joan</p>
+            </div>
+            <button onclick="copyText(&#39;0782031407&#39;)" class="text-samsung-gold text-xs border border-samsung-gold/30 px-3 py-1 rounded-lg">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- Airtel -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden">
+        <button onclick="togglePayNum(&#39;airtel&#39;)" class="w-full flex items-center gap-3 p-4">
+          <div class="w-12 h-12 airtel-logo rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="text-white font-black text-xs text-center leading-tight">Airtel<br/>Money</span>
+          </div>
+          <div class="flex-1 text-left">
+            <p class="text-white font-bold text-sm">Airtel Money</p>
+            <p class="text-gray-400 text-xs">Tap to see number</p>
+          </div>
+          <i class="fas fa-chevron-down text-gray-400 text-sm" id="airtelChevron"></i>
+        </button>
+        <div id="airtelDetails" class="px-4 pb-4" style="display:none">
+          <div class="bg-samsung-dark rounded-xl p-3 flex items-center justify-between">
+            <div>
+              <p class="text-white font-bold">0746085840</p>
+              <p class="text-gray-400 text-xs">Nabakooza Milly</p>
+            </div>
+            <button onclick="copyText(&#39;0746085840&#39;)" class="text-samsung-gold text-xs border border-samsung-gold/30 px-3 py-1 rounded-lg">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: PACKAGES (Buy)
+  ================================================================ -->
+  <div id="page-packages" class="view page-content">
+    <div class="px-4 pt-8 pb-4">
+      <h2 class="text-2xl font-black text-white">Samsung Packages</h2>
+      <p class="text-gray-400 text-sm mt-1">Choose your investment level and start earning</p>
+    </div>
+    <!-- Hero phone image -->
+    <div class="px-4 mb-4">
+      <div class="relative rounded-2xl overflow-hidden h-40">
+        <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&amp;h=400&amp;fit=crop&amp;q=80" alt="Samsung Galaxy lineup" class="w-full h-full object-cover" loading="lazy"/>
+        <div class="absolute inset-0 bg-gradient-to-r from-samsung-dark/80 to-transparent flex items-center px-5">
+          <div>
+            <p class="text-samsung-gold font-bold text-xs tracking-wider">INVEST TODAY</p>
+            <p class="text-white font-black text-xl">Earn Daily Income</p>
+            <p class="text-blue-200 text-xs mt-1">11 Samsung packages available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Group Filter -->
+    <div class="px-4 mb-4 flex gap-2 overflow-x-auto pb-1">
+      <button class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grpAll" onclick="filterGroup(&#39;all&#39;)">All</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp1" onclick="filterGroup(&#39;1&#39;)">Group 1</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp2" onclick="filterGroup(&#39;2&#39;)">Group 2</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp3" onclick="filterGroup(&#39;3&#39;)">Group 3</button>
+    </div>
+    <div id="packageList" class="px-4 space-y-4 pb-8"></div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: MY PRODUCTS
+  ================================================================ -->
+  <div id="page-my-products" class="view page-content">
+    <div class="px-4 pt-8 pb-4 flex items-center gap-3">
+      <button onclick="gotoPage(&#39;home&#39;)" class="w-8 h-8 flex items-center justify-center rounded-full bg-samsung-card border border-samsung-border">
+        <i class="fas fa-arrow-left text-gray-400 text-sm"></i>
+      </button>
+      <div>
+        <h2 class="text-xl font-black text-white">My Products</h2>
+        <p class="text-gray-400 text-xs">All your investment packages</p>
+      </div>
+    </div>
+    <!-- banner -->
+    <div class="px-4 mb-4">
+      <img src="https://images.unsplash.com/photo-1567581935884-3349723552ca?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Samsung products" class="w-full h-32 object-cover rounded-2xl" loading="lazy"/>
+    </div>
+    <div id="myProductsList" class="px-4 space-y-4 pb-8"></div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: TEAM
+  ================================================================ -->
+  <div id="page-team" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-6 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Team" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative">
+        <h2 class="text-xl font-black text-white">My Team</h2>
+        <p class="text-blue-200 text-sm mt-1">Your referral network earnings</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4 grid grid-cols-3 gap-3">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-green-400 font-black text-2xl" id="teamL1Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L1 Direct</p>
+        <p class="text-green-400 text-xs font-bold">30%</p>
+      </div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-blue-400 font-black text-2xl" id="teamL2Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L2</p>
+        <p class="text-blue-400 text-xs font-bold">2%</p>
+      </div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-purple-400 font-black text-2xl" id="teamL3Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L3</p>
+        <p class="text-purple-400 text-xs font-bold">1%</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 gold-glow">
+        <p class="text-gray-400 text-sm">Total Referral Earnings</p>
+        <p class="text-samsung-gold font-black text-3xl mt-1" id="teamTotalEarnings">0 UGX</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4">
+      <h3 class="font-bold text-white mb-3">L1 Members</h3>
+      <div id="teamL1List" class="space-y-3">
+        <p class="text-gray-500 text-sm text-center py-6">No referrals yet. Share your code to invite friends!</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4 mb-4">
+      <button onclick="shareRefLink()" class="btn-gold w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+        <i class="fas fa-share-alt"></i> Share Referral Link
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: WITHDRAW
+  ================================================================ -->
+  <div id="page-withdraw" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-16 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Withdraw" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative">
+        <h2 class="text-xl font-black text-white">Withdraw</h2>
+        <p class="text-blue-200 text-sm mt-1">Request money to your mobile wallet</p>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-8 mb-5">
+      <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-5">
+        <p class="text-blue-200 text-xs mb-1">Available Balance</p>
+        <h3 class="text-3xl font-black text-white" id="withdrawBalance">0 UGX</h3>
+        <p class="text-blue-200 text-xs mt-2">18% tax applied · Max 2/day · Min 7,000 UGX</p>
+      </div>
+    </div>
+
+    <!-- Withdraw Form -->
+    <div class="px-4 mb-5">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4">
+        <h3 class="font-bold text-white mb-4">Request Withdrawal</h3>
+
+        <!-- Step 1: Choose Network -->
+        <p class="text-gray-400 text-xs mb-2 font-medium">STEP 1 — Choose Network</p>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="network-option p-3 text-center bg-samsung-dark" id="wNetMTN" onclick="selectWithdrawNet(&#39;MTN&#39;)">
+            <div class="w-12 h-12 mtn-logo rounded-xl mx-auto flex items-center justify-center mb-2">
+              <span class="text-black font-black text-xs">MTN</span>
+            </div>
+            <p class="text-white font-bold text-sm">MTN Money</p>
+          </div>
+          <div class="network-option p-3 text-center bg-samsung-dark" id="wNetAirtel" onclick="selectWithdrawNet(&#39;Airtel&#39;)">
+            <div class="w-12 h-12 airtel-logo rounded-xl mx-auto flex items-center justify-center mb-2">
+              <span class="text-white font-black text-xs">Airtel</span>
+            </div>
+            <p class="text-white font-bold text-sm">Airtel Money</p>
+          </div>
+        </div>
+
+        <!-- Step 2: Details -->
+        <div id="withdrawDetailsForm" style="display:none">
+          <p class="text-gray-400 text-xs mb-2 font-medium">STEP 2 — Your Details</p>
+          <div class="space-y-3">
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Registered Names</label>
+              <input type="text" id="wdName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Full name registered on mobile money"/>
+            </div>
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Mobile Money Number</label>
+              <div class="phone-input-wrap">
+                <div class="phone-prefix"><span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span></div>
+                <input type="tel" id="wdPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+              </div>
+              <p class="text-gray-500 text-xs mt-1" id="wdNetworkNote">Enter your <span id="wdNetworkLabel">selected network</span> number</p>
+            </div>
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Amount (UGX)</label>
+              <input type="number" id="withdrawAmount" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Minimum 7,000 UGX" min="7000"/>
+            </div>
+            <div id="withdrawCalc" class="bg-samsung-dark rounded-xl p-3 text-sm" style="display:none">
+              <div class="flex justify-between"><span class="text-gray-400">Requested:</span><span class="text-white" id="calcRequested">0 UGX</span></div>
+              <div class="flex justify-between mt-1"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400" id="calcTax">0 UGX</span></div>
+              <div class="flex justify-between mt-1 font-bold"><span class="text-gray-400">You Receive:</span><span class="text-green-400" id="calcReceive">0 UGX</span></div>
+            </div>
+            <button class="btn-gold w-full py-4 rounded-xl font-black text-base" onclick="submitWithdraw()" id="wdSubmitBtn">
+              Withdraw Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Withdrawal History -->
+    <div class="px-4 mb-4">
+      <h3 class="font-bold text-white mb-3">Withdrawal History</h3>
+      <div id="withdrawHistory" class="space-y-3">
+        <p class="text-gray-500 text-sm text-center py-6">No withdrawal requests yet</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: MINE (Profile)
+  ================================================================ -->
+  <div id="page-mine" class="view page-content">
+    <div class="gradient-blue px-4 pt-10 pb-16 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Samsung S24" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full gradient-gold flex items-center justify-center text-2xl font-black text-samsung-dark" id="mineAvatar">N</div>
+        <div>
+          <h2 class="text-white font-black text-xl" id="mineName">---</h2>
+          <p class="text-blue-200 text-sm" id="minePhone">---</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-8">
+      <!-- Check In -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 mb-4 gold-glow">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-white">Daily Check-In</h3>
+            <p class="text-gray-400 text-xs mt-1">Get +100 UGX free every day</p>
+            <p class="text-gray-500 text-xs mt-1" id="lastCheckinText">Last check-in: Never</p>
+          </div>
+          <button id="checkinBtn" class="btn-gold px-5 py-3 rounded-xl font-bold text-sm" onclick="doCheckin()">Check In</button>
+        </div>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 mb-4">
+        <p class="text-gray-400 text-xs mb-1">Total Balance</p>
+        <p class="text-white font-black text-3xl" id="mineBalance">0 UGX</p>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden mb-4">
+        <button onclick="gotoPage(&#39;my-products&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl gradient-blue flex items-center justify-center"><i class="fas fa-mobile-alt text-white text-xs"></i></div><span class="text-white text-sm font-medium">My Products</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="gotoPage(&#39;team&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-purple-900 flex items-center justify-center"><i class="fas fa-users text-purple-400 text-xs"></i></div><span class="text-white text-sm font-medium">My Team</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="gotoPage(&#39;withdraw&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-green-900 flex items-center justify-center"><i class="fas fa-wallet text-green-400 text-xs"></i></div><span class="text-white text-sm font-medium">Withdraw</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-blue-900 flex items-center justify-center"><i class="fab fa-telegram text-blue-400 text-xs"></i></div><span class="text-white text-sm font-medium">Telegram Support</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </a>
+        <button onclick="shareApp()" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-yellow-900 flex items-center justify-center"><i class="fas fa-share-alt text-yellow-400 text-xs"></i></div><span class="text-white text-sm font-medium">Share App</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="doLogout()" class="w-full flex items-center justify-between px-4 py-4 hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-red-900 flex items-center justify-center"><i class="fas fa-sign-out-alt text-red-400 text-xs"></i></div><span class="text-red-400 text-sm font-medium">Logout</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: ADMIN PANEL
+  ================================================================ -->
+  <div id="page-admin" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-xl font-black text-white">🌸 Admin Panel</h2>
+        <p class="text-blue-200 text-xs">Full platform control — Nabakooza</p>
+      </div>
+      <button onclick="doLogout()" class="btn-primary px-3 py-2 rounded-xl text-xs font-semibold">← Exit</button>
+    </div>
+
+    <!-- Admin Stats -->
+    <div class="px-4 mt-4 grid grid-cols-2 gap-3 mb-4">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Total Users</p><p class="text-white font-black text-xl" id="adminTotalUsers">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Active Packages</p><p class="text-white font-black text-xl" id="adminActivePkgs">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Pending Packages</p><p class="text-yellow-400 font-black text-xl" id="adminPendingPkgs">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 relative">
+        <p class="text-gray-400 text-xs">Pending Withdrawals</p>
+        <p class="text-yellow-400 font-black text-xl" id="adminPendingWithdraws">0</p>
+        <span id="adminWithdrawBadge" class="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full pulse-dot" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="px-4 mb-4 flex gap-2 overflow-x-auto pb-1">
+      <button class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabPackages" onclick="switchAdminTab(&#39;packages&#39;)">📦 Packages</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabWithdrawals" onclick="switchAdminTab(&#39;withdrawals&#39;)">💸 Withdrawals</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabUsers" onclick="switchAdminTab(&#39;users&#39;)">👥 Users</button>
+    </div>
+
+    <div id="adminPanelPackages" class="px-4 mb-8"><div id="adminPkgList"></div></div>
+    <div id="adminPanelWithdrawals" class="px-4 mb-8" style="display:none"><div id="adminWithdrawList"></div></div>
+    <div id="adminPanelUsers" class="px-4 mb-8" style="display:none"><div id="adminUserList"></div></div>
+  </div>
+
+</div><!-- end appWrapper -->
+
+<!-- ================================================================
+     MODALS
+================================================================ -->
+
+<!-- Package Buy Modal -->
+<div id="buyModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-5">
+    <div class="flex items-center gap-3 mb-4">
+      <img id="buyModalImg" src="" alt="" class="w-16 h-20 rounded-xl object-cover"/>
+      <div>
+        <h3 class="text-lg font-black text-white" id="buyModalTitle">Buy Package</h3>
+        <p class="text-gray-400 text-xs" id="buyModalSub">Samsung Galaxy</p>
+      </div>
+    </div>
+    <div class="bg-samsung-dark rounded-xl p-3 text-sm mb-4">
+      <div class="flex justify-between"><span class="text-gray-400">You Pay:</span><span class="text-white font-bold" id="buyModalPay">---</span></div>
+      <div class="flex justify-between mt-1"><span class="text-gray-400">Daily Income:</span><span class="text-green-400 font-bold" id="buyModalDaily">---</span></div>
+      <div class="flex justify-between mt-1"><span class="text-gray-400">Duration:</span><span class="text-white font-bold" id="buyModalDays">---</span></div>
+    </div>
+
+    <!-- Pay Numbers -->
+    <div class="bg-samsung-card border border-samsung-border rounded-xl p-3 mb-4">
+      <p class="text-gray-400 text-xs mb-2">Pay to company number:</p>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between bg-samsung-dark rounded-lg p-2">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 mtn-logo rounded-lg flex items-center justify-center"><span class="text-black font-black text-xs">MTN</span></div>
+            <div><p class="text-white text-sm font-bold">0782031407</p><p class="text-gray-400 text-xs">Kyosiimire Joan</p></div>
+          </div>
+          <button onclick="copyText(&#39;0782031407&#39;)" class="text-samsung-gold text-xs">Copy</button>
+        </div>
+        <div class="flex items-center justify-between bg-samsung-dark rounded-lg p-2">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 airtel-logo rounded-lg flex items-center justify-center"><span class="text-white font-black text-xs">Air</span></div>
+            <div><p class="text-white text-sm font-bold">0746085840</p><p class="text-gray-400 text-xs">Nabakooza Milly</p></div>
+          </div>
+          <button onclick="copyText(&#39;0746085840&#39;)" class="text-samsung-gold text-xs">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proof Upload -->
+    <div class="mb-4">
+      <label class="text-gray-400 text-xs mb-2 block font-medium">Upload Payment Screenshot</label>
+      <input type="file" id="proofInput" accept="image/*" class="input-field w-full px-3 py-2 rounded-xl text-sm mb-2"/>
+      <div id="proofPreview" class="mb-2" style="display:none">
+        <img id="proofImg" src="" alt="Payment proof" class="w-full rounded-xl max-h-36 object-cover"/>
+      </div>
+      <label class="text-gray-400 text-xs mb-1 block font-medium">Or Paste Payment Message</label>
+      <textarea id="proofText" class="input-field w-full px-3 py-2 rounded-xl text-sm" rows="3" placeholder="Paste your MTN/Airtel payment confirmation message here..."></textarea>
+    </div>
+
+    <div class="flex gap-3">
+      <button class="flex-1 py-3 rounded-xl border border-samsung-border text-gray-400 font-semibold text-sm" onclick="closeBuyModal()">Cancel</button>
+      <button class="flex-1 btn-gold py-3 rounded-xl font-bold text-sm" onclick="submitBuy()">SUBMIT</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div id="adminLoginModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6 max-w-xs">
+    <div class="text-center mb-5">
+      <div class="text-5xl mb-2">🌸</div>
+      <h3 class="text-lg font-black text-white">Admin Access</h3>
+      <p class="text-gray-400 text-xs mt-1">Samsung Earning Platform</p>
+    </div>
+    <div class="space-y-3">
+      <input type="text" id="adminLoginName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Username"/>
+      <input type="password" id="adminLoginPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Password"/>
+      <button class="btn-primary w-full py-3 rounded-xl font-bold" onclick="verifyAdminLogin()">Login as Admin</button>
+      <button class="w-full py-3 rounded-xl border border-samsung-border text-gray-400 text-sm font-medium" onclick="document.getElementById(&#39;adminLoginModal&#39;).style.display=&#39;none&#39;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Extend Package Modal -->
+<div id="extendModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6 max-w-xs">
+    <h3 class="text-lg font-black text-white mb-4">Extend Package</h3>
+    <input type="number" id="extendDays" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Days to add" min="1"/>
+    <div class="flex gap-3 mt-4">
+      <button class="flex-1 py-3 rounded-xl border border-samsung-border text-gray-400 text-sm" onclick="document.getElementById(&#39;extendModal&#39;).style.display=&#39;none&#39;">Cancel</button>
+      <button class="flex-1 btn-primary py-3 rounded-xl font-bold text-sm" onclick="confirmExtend()">Extend</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+// ============================================================
+// DATA LAYER
+// ============================================================
+const DB = {
+  get: (key, def = null) => { try { const v = localStorage.getItem('sep_' + key); return v ? JSON.parse(v) : def; } catch(e){ return def; } },
+  set: (key, val) => { try { localStorage.setItem('sep_' + key, JSON.stringify(val)); } catch(e){} },
+  users: () => DB.get('users', {}),
+  saveUsers: (u) => DB.set('users', u),
+  packages: () => DB.get('pkgOrders', []),
+  savePackages: (p) => DB.set('pkgOrders', p),
+  withdrawals: () => DB.get('withdrawals', []),
+  saveWithdrawals: (w) => DB.set('withdrawals', w),
+  currentUser: () => DB.get('currentUser', null),
+  setCurrentUser: (id) => DB.set('currentUser', id),
+  clearCurrentUser: () => DB.set('currentUser', null)
+};
+
+// ============================================================
+// PACKAGES DEFINITION
+// ============================================================
+const PACKAGES = [
+  { id: 'a05',    group: '1', phone: 'Galaxy A05',         pay: 15000,    daily: 3000,    days: 60,  img: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=500&fit=crop&q=80',  color: '#1f6feb' },
+  { id: 'a15',    group: '1', phone: 'Galaxy A15',         pay: 30000,    daily: 7000,    days: 60,  img: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400&h=500&fit=crop&q=80',  color: '#1f6feb' },
+  { id: 'a25',    group: '2', phone: 'Galaxy A25',         pay: 50000,    daily: 12500,   days: 180, img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 'a35',    group: '2', phone: 'Galaxy A35',         pay: 100000,   daily: 26000,   days: 180, img: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 'a55',    group: '2', phone: 'Galaxy A55',         pay: 150000,   daily: 40000,   days: 180, img: 'https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 's23fe',  group: '3', phone: 'Galaxy S23 FE',      pay: 300000,   daily: 90000,   days: 210, img: 'https://images.unsplash.com/photo-1592910147752-a97764eff74b?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24',    group: '3', phone: 'Galaxy S24',         pay: 500000,   daily: 160000,  days: 210, img: 'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24p',   group: '3', phone: 'Galaxy S24+',        pay: 800000,   daily: 280200,  days: 210, img: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24u',   group: '3', phone: 'Galaxy S24 Ultra',   pay: 1200000,  daily: 450000,  days: 210, img: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&h=500&fit=crop&q=80',  color: '#FFA500' },
+  { id: 'zflip6', group: '3', phone: 'Galaxy Z Flip6',     pay: 1300000,  daily: 600000,  days: 210, img: 'https://images.unsplash.com/photo-1628571862661-5b1e4a1d1b52?w=400&h=500&fit=crop&q=80',  color: '#FFA500' },
+  { id: 'zfold6', group: '3', phone: 'Galaxy Z Fold6 VIP', pay: 2000000,  daily: 8805000, days: 210, img: 'https://images.unsplash.com/photo-1640166304015-a6f7f8bfb875?w=400&h=500&fit=crop&q=80',  color: '#ff4500', vip: true },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentPage = 'home';
+let currentUser = null;
+let buyingPkgId = null;
+let extendingId = null;
+let currentAdminTab = 'packages';
+let selectedWithdrawNet = '';
+
+// ============================================================
+// UTILS
+// ============================================================
+function fmt(n) { return Number(n).toLocaleString() + ' UGX'; }
+function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-UG', {day:'2-digit',month:'short',year:'numeric'}) : '---'; }
+function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-UG', {hour:'2-digit',minute:'2-digit'}) : ''; }
+function genCode() { return 'SEP' + Math.random().toString(36).substr(2,6).toUpperCase(); }
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#1428A0';
+  t.style.color = '#fff';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+function copyText(txt) {
+  navigator.clipboard.writeText(txt).then(() => showToast('Copied!', 'success')).catch(() => {
+    const el = document.createElement('textarea'); el.value = txt; document.body.appendChild(el);
+    el.select(); document.execCommand('copy'); document.body.removeChild(el);
+    showToast('Copied!', 'success');
+  });
+}
+function now() { return Date.now(); }
+// Normalize phone: strip leading 0, keep 9 digits, prepend +256
+function fullPhone(nine) { return '+256' + nine.replace(/^0+/, ''); }
+function parseInputPhone(val) {
+  // Accept 9-digit input (starting with 7)
+  return val.trim();
+}
+
+// ============================================================
+// TOGGLE PAYMENT NUMBERS
+// ============================================================
+function togglePayNum(net) {
+  const det = document.getElementById(net + 'Details');
+  const chev = document.getElementById(net + 'Chevron');
+  if (det.style.display === 'none') {
+    det.style.display = 'block';
+    chev.classList.replace('fa-chevron-down','fa-chevron-up');
+  } else {
+    det.style.display = 'none';
+    chev.classList.replace('fa-chevron-up','fa-chevron-down');
+  }
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function switchAuthTab(tab) {
+  document.getElementById('tabLogin').classList.toggle('active-tab', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active-tab', tab === 'register');
+  document.getElementById('formLogin').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('formRegister').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+function getPhoneFromInput(inputId) {
+  return document.getElementById(inputId).value.trim();
+}
+
+function validateUgPhone(nine) {
+  return /^[7]\d{8}$/.test(nine);
+}
+
+function doLogin() {
+  const phone9 = getPhoneFromInput('loginPhone');
+  const pass = document.getElementById('loginPass').value.trim();
+  if (!phone9 || !pass) return showToast('Fill all fields', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  const fullPh = fullPhone(phone9);
+  const users = DB.users();
+  // Try both formats
+  const user = users[fullPh] || users['0' + phone9];
+  if (!user) return showToast('Account not found', 'error');
+  if (user.pass !== pass) return showToast('Wrong password', 'error');
+  DB.setCurrentUser(user.phone);
+  currentUser = user;
+  showApp();
+  showRules();
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const phone9 = getPhoneFromInput('regPhone');
+  const pass = document.getElementById('regPass').value.trim();
+  const ref = document.getElementById('regRef').value.trim().toUpperCase();
+  if (!name || !phone9 || !pass) return showToast('Fill all required fields', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  const fullPh = fullPhone(phone9);
+  const users = DB.users();
+  if (users[fullPh]) return showToast('Account already exists with this number', 'error');
+  let referrerPhone = null;
+  if (ref) {
+    const refUser = Object.values(users).find(u => u.refCode === ref);
+    if (!refUser) return showToast('Invalid referral code', 'error');
+    referrerPhone = refUser.phone;
+  }
+  const newUser = { name, phone: fullPh, pass, refCode: genCode(), balance: 0, referredBy: referrerPhone, joinDate: now(), checkinDate: null, wallets: [] };
+  users[fullPh] = newUser;
+  if (referrerPhone && users[referrerPhone]) {
+    if (!users[referrerPhone].referrals) users[referrerPhone].referrals = [];
+    users[referrerPhone].referrals.push(fullPh);
+  }
+  DB.saveUsers(users);
+  DB.setCurrentUser(fullPh);
+  currentUser = newUser;
+  showApp();
+  showRules();
+}
+
+function doLogout() {
+  DB.clearCurrentUser();
+  currentUser = null;
+  document.getElementById('appWrapper').style.display = 'none';
+  document.getElementById('view-auth').classList.add('active');
+  document.getElementById('view-auth').style.display = 'flex';
+}
+
+function showApp() {
+  document.getElementById('view-auth').classList.remove('active');
+  document.getElementById('view-auth').style.display = 'none';
+  document.getElementById('appWrapper').style.display = 'block';
+  gotoPage('home');
+  processDailyIncome();
+}
+
+function showRules() { document.getElementById('rulesModal').style.display = 'flex'; }
+function closeRules() { document.getElementById('rulesModal').style.display = 'none'; }
+
+// ============================================================
+// NAV & VIEWS
+// ============================================================
+function gotoPage(page) {
+  currentPage = page;
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) pageEl.classList.add('active');
+  ['home','packages','team','withdraw','mine'].forEach(n => {
+    const el = document.getElementById('nav-' + n);
+    if (el) el.classList.toggle('active-nav', n === page);
+  });
+  loadPageData(page);
+}
+
+function loadPageData(page) {
+  refreshUser();
+  if (page === 'home') renderHome();
+  if (page === 'packages') renderPackages('all');
+  if (page === 'my-products') renderMyProducts();
+  if (page === 'team') renderTeam();
+  if (page === 'withdraw') renderWithdraw();
+  if (page === 'mine') renderMine();
+  if (page === 'admin') renderAdmin();
+}
+
+function refreshUser() {
+  if (!currentUser) return;
+  const users = DB.users();
+  currentUser = users[currentUser.phone] || currentUser;
+}
+
+// ============================================================
+// HOME PAGE
+// ============================================================
+function renderHome() {
+  if (!currentUser) return;
+  document.getElementById('homeUserName').textContent = currentUser.name;
+  document.getElementById('homeBalance').textContent = fmt(currentUser.balance || 0);
+  document.getElementById('homePhone').textContent = currentUser.phone;
+  document.getElementById('homeRefCode').textContent = currentUser.refCode;
+  const myOrders = DB.packages().filter(o => o.userId === currentUser.phone && o.status === 'active');
+  document.getElementById('homeActivePkgs').textContent = myOrders.length;
+  const users = DB.users();
+  const refs = Object.values(users).filter(u => u.referredBy === currentUser.phone);
+  document.getElementById('homeReferrals').textContent = refs.length;
+  const todayEarned = myOrders.reduce((s, o) => { const pkg = PACKAGES.find(p => p.id === o.pkgId); return s + (pkg ? pkg.daily : 0); }, 0);
+  document.getElementById('homeTodayEarned').textContent = fmt(todayEarned);
+  const listEl = document.getElementById('homeActivePkgList');
+  if (myOrders.length === 0) {
+    listEl.innerHTML = `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 text-center">
+      <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=200&fit=crop" alt="Samsung phones" class="w-full h-28 object-cover rounded-xl mb-3" loading="lazy" />
+      <p class="text-gray-500 text-sm">No active packages yet</p>
+      <button onclick="gotoPage('packages')" class="btn-gold px-6 py-2 rounded-xl text-sm font-bold mt-3">Buy Package</button>
+    </div>`;
+  } else {
+    listEl.innerHTML = myOrders.slice(0,3).map(o => {
+      const pkg = PACKAGES.find(p => p.id === o.pkgId);
+      const daysLeft = o.expiryDate ? Math.max(0, Math.ceil((o.expiryDate - now()) / 86400000)) : 0;
+      return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 flex items-center gap-3">
+        <img src="${pkg.img}" alt="${pkg.phone}" class="w-14 h-16 rounded-xl object-cover flex-shrink-0" loading="lazy" />
+        <div class="flex-1 min-w-0">
+          <p class="text-white font-bold text-sm truncate">${pkg.phone}</p>
+          <p class="text-green-400 text-xs">+${fmt(pkg.daily)}/day</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-samsung-gold font-bold text-sm">${daysLeft}d</p>
+          <p class="text-gray-500 text-xs">left</p>
+        </div>
+      </div>`;
+    }).join('');
+    if (myOrders.length > 3) listEl.innerHTML += `<button onclick="gotoPage('my-products')" class="w-full text-center text-samsung-gold text-sm font-medium py-2">View all ${myOrders.length} packages →</button>`;
+  }
+}
+
+// ============================================================
+// PACKAGES PAGE
+// ============================================================
+function filterGroup(g) {
+  ['all','1','2','3'].forEach(x => {
+    const el = document.getElementById('grp' + (x==='all'?'All':x));
+    if (el) el.classList.toggle('active-tab', x === g);
+  });
+  renderPackages(g);
+}
+
+function renderPackages(group) {
+  const list = group === 'all' ? PACKAGES : PACKAGES.filter(p => p.group === group);
+  document.getElementById('packageList').innerHTML = list.map(pkg => `
+    <div class="pkg-card bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden" style="border-left:4px solid ${pkg.color}">
+      <div class="flex gap-3 p-4">
+        <div class="relative flex-shrink-0">
+          <img src="${pkg.img}" alt="${pkg.phone}" class="w-28 h-36 rounded-xl object-cover" loading="lazy" />
+          ${pkg.vip ? '<div class="absolute top-1 left-1 bg-yellow-500 text-black text-xs font-black px-2 py-0.5 rounded-lg">VIP</div>' : ''}
+          <div class="absolute bottom-1 left-1 bg-black/70 rounded-md px-1.5 py-0.5"><p class="text-white text-xs font-bold">Grp ${pkg.group}</p></div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-black text-white text-base">${pkg.phone}</h3>
+          <div class="mt-2 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Pay:</span><span class="text-white font-bold">${fmt(pkg.pay)}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Daily:</span><span class="text-green-400 font-bold">+${fmt(pkg.daily)}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Days:</span><span class="text-white font-bold">${pkg.days} Days</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Total:</span><span class="text-samsung-gold font-bold">${fmt(pkg.daily * pkg.days)}</span></div>
+          </div>
+          <div class="progress-bar mt-3"><div class="progress-fill" style="width:${Math.min(100,Math.round((pkg.daily/pkg.pay)*100))}%"></div></div>
+          <p class="text-gray-500 text-xs mt-1">${Math.round((pkg.daily/pkg.pay)*100)}% daily return</p>
+        </div>
+      </div>
+      <div class="px-4 pb-4">
+        <button class="btn-gold w-full py-3 rounded-xl font-black text-sm" onclick="openBuyModal('${pkg.id}')">Buy Now — ${fmt(pkg.pay)}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// BUY MODAL
+// ============================================================
+function openBuyModal(pkgId) {
+  if (!currentUser) return showToast('Please login first', 'error');
+  buyingPkgId = pkgId;
+  const pkg = PACKAGES.find(p => p.id === pkgId);
+  document.getElementById('buyModalImg').src = pkg.img;
+  document.getElementById('buyModalImg').alt = pkg.phone;
+  document.getElementById('buyModalTitle').textContent = pkg.phone;
+  document.getElementById('buyModalSub').textContent = `Group ${pkg.group} — ${pkg.days} Day Package`;
+  document.getElementById('buyModalPay').textContent = fmt(pkg.pay);
+  document.getElementById('buyModalDaily').textContent = '+' + fmt(pkg.daily) + '/day';
+  document.getElementById('buyModalDays').textContent = pkg.days + ' Days';
+  document.getElementById('proofInput').value = '';
+  document.getElementById('proofText').value = '';
+  document.getElementById('proofPreview').style.display = 'none';
+  document.getElementById('buyModal').style.display = 'flex';
+}
+function closeBuyModal() { document.getElementById('buyModal').style.display = 'none'; buyingPkgId = null; }
+
+function submitBuy() {
+  if (!buyingPkgId) return;
+  const proofFile = document.getElementById('proofInput').files[0];
+  const proofMsg = document.getElementById('proofText').value.trim();
+  if (!proofFile && !proofMsg) return showToast('Please upload screenshot or paste payment message', 'error');
+  const pkg = PACKAGES.find(p => p.id === buyingPkgId);
+  const orders = DB.packages();
+  const orderId = 'ORD' + now() + Math.random().toString(36).substr(2,4).toUpperCase();
+  orders.push({ id: orderId, userId: currentUser.phone, pkgId: buyingPkgId, status: 'pending', submitDate: now(), approveDate: null, buyDate: null, expiryDate: null, lastIncomeDate: null, proof: proofFile ? 'image_uploaded' : proofMsg, amount: pkg.pay });
+  DB.savePackages(orders);
+  closeBuyModal();
+  showToast('Package submitted! Waiting for admin approval.', 'success');
+  renderHome();
+}
+
+// ============================================================
+// MY PRODUCTS
+// ============================================================
+function renderMyProducts() {
+  if (!currentUser) return;
+  const orders = DB.packages().filter(o => o.userId === currentUser.phone);
+  const el = document.getElementById('myProductsList');
+  if (orders.length === 0) {
+    el.innerHTML = `<div class="bg-samsung-card border border-samsung-border rounded-xl p-6 text-center">
+      <img src="https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&h=200&fit=crop" alt="Samsung" class="w-full h-28 object-cover rounded-xl mb-3" loading="lazy" />
+      <p class="text-gray-400 text-sm mb-4">No packages yet</p>
+      <button onclick="gotoPage('packages')" class="btn-gold px-8 py-3 rounded-xl font-bold text-sm">Browse Packages</button>
+    </div>`;
+    return;
+  }
+  orders.sort((a,b) => b.submitDate - a.submitDate);
+  el.innerHTML = orders.map(o => {
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    const daysLeft = o.expiryDate ? Math.max(0, Math.ceil((o.expiryDate - now()) / 86400000)) : 0;
+    const totalDays = pkg ? pkg.days : 0;
+    const progress = totalDays > 0 ? Math.min(100, Math.round(((totalDays - daysLeft) / totalDays) * 100)) : 0;
+    let badge = '';
+    if (o.status==='active') badge='<span class="badge-active px-2 py-1 rounded-lg text-xs font-bold">Active</span>';
+    else if (o.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">Pending Approval</span>';
+    else if (o.status==='expired') badge='<span class="badge-expired px-2 py-1 rounded-lg text-xs font-bold">Expired</span>';
+    else if (o.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden">
+      <div class="relative">
+        <img src="${pkg.img}" alt="${pkg.phone}" class="w-full h-36 object-cover" loading="lazy" />
+        <div class="absolute inset-0 bg-gradient-to-t from-samsung-dark/90 via-transparent to-transparent flex items-end p-3">
+          <div class="flex items-center gap-2">${badge}<span class="text-gray-400 text-xs">#${o.id.slice(-6)}</span></div>
+        </div>
+      </div>
+      <div class="p-4 space-y-2 text-sm">
+        <h4 class="text-white font-black text-base">${pkg.phone}</h4>
+        <div class="flex justify-between"><span class="text-gray-400">Invested:</span><span class="text-white font-bold">${fmt(o.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Daily Income:</span><span class="text-green-400 font-bold">+${fmt(pkg.daily)}</span></div>
+        ${o.status==='active' ? `
+        <div class="flex justify-between"><span class="text-gray-400">Buy Date:</span><span class="text-white">${fmtDate(o.buyDate)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Expiry:</span><span class="text-white">${fmtDate(o.expiryDate)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Days Left:</span><span class="text-samsung-gold font-bold">${daysLeft} days</span></div>
+        <div class="mt-2"><div class="flex justify-between text-xs mb-1"><span class="text-gray-400">Progress</span><span class="text-white">${progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div></div>` : ''}
+        ${o.status==='pending' ? '<p class="text-yellow-400 text-xs">⏳ Waiting for admin approval...</p>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// TEAM PAGE
+// ============================================================
+function renderTeam() {
+  if (!currentUser) return;
+  const users = DB.users();
+  const orders = DB.packages();
+  const l1 = Object.values(users).filter(u => u.referredBy === currentUser.phone);
+  const l2 = [];
+  if (l1.length > 0) { const found = Object.values(users).find(u => l1.some(l => l.phone === u.referredBy)); if (found) l2.push(found); }
+  const l3 = [];
+  if (l2.length > 0) { const found = Object.values(users).find(u => l2.some(l => l.phone === u.referredBy)); if (found) l3.push(found); }
+  document.getElementById('teamL1Count').textContent = l1.length;
+  document.getElementById('teamL2Count').textContent = l2.length;
+  document.getElementById('teamL3Count').textContent = l3.length;
+  let totalRef = 0;
+  l1.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.30; }); });
+  l2.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.02; }); });
+  l3.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.01; }); });
+  document.getElementById('teamTotalEarnings').textContent = fmt(totalRef);
+  const listEl = document.getElementById('teamL1List');
+  if (l1.length === 0) { listEl.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No referrals yet. Share your code to invite friends!</p>'; return; }
+  listEl.innerHTML = l1.map(u => {
+    const myEarning = orders.filter(o=>o.userId===u.phone&&o.status==='active').reduce((s,o)=>s+o.amount*0.30, 0);
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full gradient-blue flex items-center justify-center text-white font-bold flex-shrink-0">${u.name.charAt(0).toUpperCase()}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white font-semibold text-sm truncate">${u.name}</p>
+        <p class="text-gray-400 text-xs">${u.phone}</p>
+      </div>
+      <div class="text-right flex-shrink-0">
+        <p class="text-green-400 font-bold text-sm">${fmt(myEarning)}</p>
+        <p class="text-gray-500 text-xs">earned</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// WITHDRAW PAGE
+// ============================================================
+function selectWithdrawNet(net) {
+  selectedWithdrawNet = net;
+  document.getElementById('wNetMTN').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNetAirtel').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNet' + net).classList.add('selected-' + net.toLowerCase());
+  document.getElementById('withdrawDetailsForm').style.display = 'block';
+  document.getElementById('wdNetworkLabel').textContent = net + ' Mobile Money';
+  document.getElementById('wdSubmitBtn').className = net === 'MTN' ? 'btn-mtn w-full py-4 rounded-xl font-black text-base' : 'btn-airtel w-full py-4 rounded-xl font-black text-base';
+  document.getElementById('wdSubmitBtn').textContent = 'Withdraw via ' + net;
+}
+
+function renderWithdraw() {
+  if (!currentUser) return;
+  document.getElementById('withdrawBalance').textContent = fmt(currentUser.balance || 0);
+  selectedWithdrawNet = '';
+  document.getElementById('withdrawDetailsForm').style.display = 'none';
+  document.getElementById('wNetMTN').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNetAirtel').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('withdrawAmount').value = '';
+  document.getElementById('withdrawCalc').style.display = 'none';
+  const history = DB.withdrawals().filter(w => w.userId === currentUser.phone);
+  const histEl = document.getElementById('withdrawHistory');
+  if (history.length === 0) { histEl.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No withdrawal requests yet</p>'; return; }
+  history.sort((a,b) => b.date - a.date);
+  histEl.innerHTML = history.map(w => {
+    const tax = Math.round(w.amount * 0.18);
+    const receive = w.amount - tax;
+    let badge = '';
+    if (w.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">⏳ Pending</span>';
+    else if (w.status==='paid') badge='<span class="badge-paid px-2 py-1 rounded-lg text-xs font-bold">✅ Paid</span>';
+    else if (w.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">❌ Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3">
+      <div class="flex items-center justify-between mb-2">${badge}<span class="text-gray-500 text-xs">${fmtDate(w.date)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Network:</span><span class="text-white font-bold">${w.network || '---'}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Requested:</span><span class="text-white font-bold">${fmt(w.amount)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400">−${fmt(tax)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">You Receive:</span><span class="text-green-400 font-bold">${fmt(receive)}</span></div>
+      <p class="text-gray-500 text-xs mt-2">${w.walletName} · +256${w.walletPhone}</p>
+    </div>`;
+  }).join('');
+}
+
+function submitWithdraw() {
+  if (!selectedWithdrawNet) return showToast('Select MTN or Airtel', 'error');
+  const name = document.getElementById('wdName').value.trim();
+  const phone9 = document.getElementById('wdPhone').value.trim();
+  const amount = parseFloat(document.getElementById('withdrawAmount').value);
+  if (!name) return showToast('Enter your registered names', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  if (!amount || amount < 7000) return showToast('Minimum withdrawal is 7,000 UGX', 'error');
+  if (amount > (currentUser.balance || 0)) return showToast('Insufficient balance', 'error');
+  const today = new Date().toDateString();
+  const withdrawals = DB.withdrawals();
+  const todayCount = withdrawals.filter(w => w.userId === currentUser.phone && new Date(w.date).toDateString() === today && w.status !== 'rejected').length;
+  if (todayCount >= 2) return showToast('Maximum 2 withdrawals per day', 'error');
+  const wId = 'W' + now() + Math.random().toString(36).substr(2,4).toUpperCase();
+  withdrawals.push({ id: wId, userId: currentUser.phone, userName: currentUser.name, amount, date: now(), status: 'pending', network: selectedWithdrawNet, walletName: name, walletPhone: phone9 });
+  DB.saveWithdrawals(withdrawals);
+  showToast('Withdrawal request sent to admin!', 'success');
+  document.getElementById('wdName').value = '';
+  document.getElementById('wdPhone').value = '';
+  document.getElementById('withdrawAmount').value = '';
+  renderWithdraw();
+}
+
+// ============================================================
+// MINE PAGE
+// ============================================================
+function renderMine() {
+  if (!currentUser) return;
+  document.getElementById('mineName').textContent = currentUser.name;
+  document.getElementById('minePhone').textContent = currentUser.phone;
+  document.getElementById('mineBalance').textContent = fmt(currentUser.balance || 0);
+  document.getElementById('mineAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  const lastCI = currentUser.checkinDate;
+  const canCheckin = !lastCI || (now() - lastCI) >= 86400000;
+  const btn = document.getElementById('checkinBtn');
+  btn.disabled = !canCheckin;
+  btn.style.opacity = canCheckin ? '1' : '0.5';
+  document.getElementById('lastCheckinText').textContent = lastCI ? 'Last: ' + fmtDate(lastCI) : 'Never checked in';
+}
+
+function doCheckin() {
+  if (!currentUser) return;
+  if (currentUser.checkinDate && (now() - currentUser.checkinDate) < 86400000) return showToast('Come back tomorrow!', 'error');
+  const users = DB.users();
+  users[currentUser.phone].balance = (users[currentUser.phone].balance || 0) + 100;
+  users[currentUser.phone].checkinDate = now();
+  DB.saveUsers(users);
+  currentUser = users[currentUser.phone];
+  showToast('✅ +100 UGX added to your balance!', 'success');
+  renderMine();
+}
+
+// ============================================================
+// DAILY INCOME PROCESSOR
+// ============================================================
+function processDailyIncome() {
+  const orders = DB.packages();
+  const users = DB.users();
+  let changed = false;
+  orders.forEach(o => {
+    if (o.status !== 'active') return;
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    if (!pkg || !o.lastIncomeDate) return;
+    const n = now();
+    if (o.expiryDate && n >= o.expiryDate) { o.status = 'expired'; changed = true; return; }
+    const daysSince = Math.floor((n - o.lastIncomeDate) / 86400000);
+    if (daysSince >= 1 && users[o.userId]) {
+      users[o.userId].balance = (users[o.userId].balance || 0) + (pkg.daily * daysSince);
+      o.lastIncomeDate = n;
+      changed = true;
+    }
+  });
+  if (changed) { DB.savePackages(orders); DB.saveUsers(users); refreshUser(); }
+}
+
+// ============================================================
+// SHARING
+// ============================================================
+function copyRefCode() { if (currentUser) copyText(currentUser.refCode); }
+
+function shareRefLink() {
+  const code = currentUser ? currentUser.refCode : '';
+  const url = window.location.href.split('?')[0] + '?ref=' + code;
+  const text = `💰 Join Samsung Earning Platform!\n📱 Invest in Samsung packages & earn daily!\n🎁 Use my referral code: ${code}\n🔗 ${url}`;
+  if (navigator.share) {
+    navigator.share({ title: 'Samsung Earning Platform', text, url }).catch(() => { copyText(text); showToast('Link copied — share with friends!', 'success'); });
+  } else { copyText(text); showToast('Referral link copied!', 'success'); }
+}
+
+function shareApp() {
+  const url = window.location.href.split('?')[0];
+  const text = `💰 Samsung Earning Platform\n📱 Invest in Samsung phones & earn daily income!\n🎁 +100 UGX daily check-in bonus\n💸 Fast MTN/Airtel withdrawals\n🔗 ${url}`;
+  if (navigator.share) {
+    navigator.share({ title: 'Samsung Earning Platform', text, url }).catch(() => { copyText(text); showToast('Link copied!', 'success'); });
+  } else { copyText(text); showToast('Link copied — share with friends!', 'success'); }
+}
+
+// Auto-apply referral from URL
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (ref) {
+    setTimeout(() => {
+      const refInput = document.getElementById('regRef');
+      if (refInput) refInput.value = ref;
+      switchAuthTab('register');
+    }, 600);
+  }
+})();
+
+// ============================================================
+// ADMIN
+// ============================================================
+function openAdminLogin() {
+  document.getElementById('adminLoginName').value = '';
+  document.getElementById('adminLoginPass').value = '';
+  document.getElementById('adminLoginModal').style.display = 'flex';
+}
+
+function verifyAdminLogin() {
+  const name = document.getElementById('adminLoginName').value.trim();
+  const pass = document.getElementById('adminLoginPass').value.trim();
+  if (name === 'Nabakooza' && pass === 'nabakooza123') {
+    document.getElementById('adminLoginModal').style.display = 'none';
+    // Show admin within app or from auth
+    document.getElementById('view-auth').classList.remove('active');
+    document.getElementById('view-auth').style.display = 'none';
+    document.getElementById('appWrapper').style.display = 'block';
+    gotoPage('admin');
+  } else {
+    showToast('Invalid admin credentials', 'error');
+  }
+}
+
+function switchAdminTab(tab) {
+  currentAdminTab = tab;
+  ['packages','withdrawals','users'].forEach(t => {
+    const key = t.charAt(0).toUpperCase() + t.slice(1);
+    const btn = document.getElementById('adminTab' + key);
+    const panel = document.getElementById('adminPanel' + key);
+    if (btn) btn.classList.toggle('active-tab', t === tab);
+    if (panel) panel.style.display = t === tab ? 'block' : 'none';
+  });
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const users = DB.users();
+  const orders = DB.packages();
+  const withdrawals = DB.withdrawals();
+  document.getElementById('adminTotalUsers').textContent = Object.keys(users).length;
+  document.getElementById('adminActivePkgs').textContent = orders.filter(o=>o.status==='active').length;
+  document.getElementById('adminPendingPkgs').textContent = orders.filter(o=>o.status==='pending').length;
+  const pendingW = withdrawals.filter(w=>w.status==='pending').length;
+  document.getElementById('adminPendingWithdraws').textContent = pendingW;
+  document.getElementById('adminWithdrawBadge').style.display = pendingW > 0 ? 'block' : 'none';
+  if (currentAdminTab === 'packages') renderAdminPackages();
+  if (currentAdminTab === 'withdrawals') renderAdminWithdrawals();
+  if (currentAdminTab === 'users') renderAdminUsers();
+}
+
+function renderAdminPackages() {
+  const orders = DB.packages();
+  const users = DB.users();
+  const el = document.getElementById('adminPkgList');
+  if (orders.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No package orders</p>'; return; }
+  orders.sort((a,b) => b.submitDate - a.submitDate);
+  el.innerHTML = orders.map(o => {
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    const user = users[o.userId] || {};
+    let badge = '';
+    if (o.status==='active') badge='<span class="badge-active px-2 py-1 rounded-lg text-xs font-bold">Active</span>';
+    else if (o.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">Pending</span>';
+    else if (o.status==='expired') badge='<span class="badge-expired px-2 py-1 rounded-lg text-xs font-bold">Expired</span>';
+    else if (o.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 mb-3">
+      <div class="flex items-start gap-3 mb-3">
+        <img src="${pkg ? pkg.img : ''}" alt="${pkg ? pkg.phone : ''}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0" loading="lazy" />
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1">${badge}<span class="text-gray-500 text-xs">${fmtDate(o.submitDate)}</span></div>
+          <p class="text-white font-bold text-sm">${user.name || 'Unknown'}</p>
+          <p class="text-gray-400 text-xs">${user.phone || '---'}</p>
+          <p class="text-samsung-gold text-xs font-semibold mt-1">${pkg ? pkg.phone : 'Unknown'} — ${fmt(o.amount)}</p>
+        </div>
+      </div>
+      ${o.proof && o.proof !== 'image_uploaded' ? `<div class="bg-samsung-dark rounded-xl p-3 mb-3"><p class="text-gray-400 text-xs mb-1">Payment proof message:</p><p class="text-white text-xs">${o.proof.substring(0,200)}</p></div>` : ''}
+      ${o.status==='active' ? `<p class="text-gray-500 text-xs mb-3">Expires: ${fmtDate(o.expiryDate)}</p>` : ''}
+      <div class="flex gap-2 flex-wrap">
+        ${o.status==='pending' ? `<button onclick="adminApprovePkg('${o.id}')" class="btn-gold px-3 py-2 rounded-lg text-xs font-bold flex-1">✅ Approve</button><button onclick="adminRejectPkg('${o.id}')" class="border border-red-500 text-red-400 px-3 py-2 rounded-lg text-xs font-bold flex-1">❌ Reject</button>` : ''}
+        ${o.status==='active' ? `<button onclick="openExtend('${o.id}')" class="border border-samsung-border text-gray-300 px-3 py-2 rounded-lg text-xs font-bold flex-1">📅 Extend</button>` : ''}
+        <button onclick="adminDeletePkg('${o.id}')" class="border border-red-900 text-red-500 px-3 py-2 rounded-lg text-xs font-bold">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminApprovePkg(orderId) {
+  const orders = DB.packages();
+  const users = DB.users();
+  const idx = orders.findIndex(o => o.id === orderId);
+  if (idx < 0) return;
+  const o = orders[idx];
+  const pkg = PACKAGES.find(p => p.id === o.pkgId);
+  if (!pkg) return;
+  o.status = 'active'; o.approveDate = now(); o.buyDate = now();
+  o.expiryDate = now() + pkg.days * 86400000; o.lastIncomeDate = now();
+  // Referral commissions
+  const buyer = users[o.userId];
+  if (buyer && buyer.referredBy && users[buyer.referredBy]) {
+    users[buyer.referredBy].balance = (users[buyer.referredBy].balance || 0) + Math.round(o.amount * 0.30);
+    const l1u = users[buyer.referredBy];
+    if (l1u.referredBy && users[l1u.referredBy]) {
+      users[l1u.referredBy].balance = (users[l1u.referredBy].balance || 0) + Math.round(o.amount * 0.02);
+      const l2u = users[l1u.referredBy];
+      if (l2u.referredBy && users[l2u.referredBy]) users[l2u.referredBy].balance = (users[l2u.referredBy].balance || 0) + Math.round(o.amount * 0.01);
+    }
+  }
+  DB.savePackages(orders); DB.saveUsers(users);
+  showToast('Package approved! Daily income started.', 'success');
+  renderAdmin();
+}
+
+function adminRejectPkg(orderId) {
+  const orders = DB.packages();
+  const idx = orders.findIndex(o => o.id === orderId);
+  if (idx >= 0) { orders[idx].status = 'rejected'; DB.savePackages(orders); renderAdmin(); showToast('Package rejected', 'info'); }
+}
+
+function adminDeletePkg(orderId) {
+  DB.savePackages(DB.packages().filter(o => o.id !== orderId));
+  renderAdmin(); showToast('Deleted', 'info');
+}
+
+function openExtend(orderId) { extendingId = orderId; document.getElementById('extendDays').value = ''; document.getElementById('extendModal').style.display = 'flex'; }
+function confirmExtend() {
+  const days = parseInt(document.getElementById('extendDays').value);
+  if (!days || days < 1) return showToast('Enter valid days', 'error');
+  const orders = DB.packages();
+  const idx = orders.findIndex(o => o.id === extendingId);
+  if (idx >= 0 && orders[idx].expiryDate) {
+    orders[idx].expiryDate += days * 86400000;
+    DB.savePackages(orders);
+    document.getElementById('extendModal').style.display = 'none';
+    showToast(`Extended by ${days} days!`, 'success'); renderAdmin();
+  }
+}
+
+function renderAdminWithdrawals() {
+  const withdrawals = DB.withdrawals();
+  const users = DB.users();
+  const el = document.getElementById('adminWithdrawList');
+  if (withdrawals.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No withdrawal requests</p>'; return; }
+  withdrawals.sort((a,b) => b.date - a.date);
+  el.innerHTML = withdrawals.map(w => {
+    const tax = Math.round(w.amount * 0.18);
+    const receive = w.amount - tax;
+    let badge = '';
+    if (w.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">⏳ Pending</span>';
+    else if (w.status==='paid') badge='<span class="badge-paid px-2 py-1 rounded-lg text-xs font-bold">✅ Paid</span>';
+    else if (w.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">❌ Rejected</span>';
+    const netIcon = w.network === 'MTN' ?
+      `<div class="w-8 h-8 mtn-logo rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-black font-black text-xs">MTN</span></div>` :
+      `<div class="w-8 h-8 airtel-logo rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-white font-black text-xs">Air</span></div>`;
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 mb-3">
+      <div class="flex items-center justify-between mb-3">${badge}<span class="text-gray-500 text-xs">${fmtDate(w.date)} ${fmtTime(w.date)}</span></div>
+      <div class="flex items-center gap-3 mb-3">
+        ${netIcon}
+        <div>
+          <p class="text-white font-bold text-sm">${w.userName || w.userId}</p>
+          <p class="text-gray-400 text-xs">${w.walletName} · +256${w.walletPhone}</p>
+          <p class="text-gray-400 text-xs">${w.network} Mobile Money</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-3 mb-3 text-sm space-y-1">
+        <div class="flex justify-between"><span class="text-gray-400">Requested:</span><span class="text-white font-bold">${fmt(w.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400">−${fmt(tax)}</span></div>
+        <div class="flex justify-between font-bold"><span class="text-gray-400">Send to User:</span><span class="text-green-400 text-base">${fmt(receive)}</span></div>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        ${w.status==='pending' ? `
+          <button onclick="adminMarkPaid('${w.id}')" class="btn-gold px-3 py-2 rounded-lg text-xs font-bold flex-1">✅ Mark as Paid</button>
+          <button onclick="adminRejectWithdraw('${w.id}')" class="border border-red-500 text-red-400 px-3 py-2 rounded-lg text-xs font-bold flex-1">❌ Reject</button>
+        ` : ''}
+        <button onclick="adminDeleteWithdraw('${w.id}')" class="border border-red-900 text-red-500 px-3 py-2 rounded-lg text-xs font-bold">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminMarkPaid(wId) {
+  const withdrawals = DB.withdrawals();
+  const users = DB.users();
+  const idx = withdrawals.findIndex(w => w.id === wId);
+  if (idx < 0) return;
+  const w = withdrawals[idx];
+  if (users[w.userId]) {
+    users[w.userId].balance = Math.max(0, (users[w.userId].balance || 0) - w.amount);
+    DB.saveUsers(users);
+  }
+  w.status = 'paid';
+  DB.saveWithdrawals(withdrawals);
+  if (currentUser && currentUser.phone === w.userId) currentUser = users[w.userId];
+  showToast('Marked as Paid. Balance deducted.', 'success');
+  renderAdmin();
+}
+
+function adminRejectWithdraw(wId) {
+  const withdrawals = DB.withdrawals();
+  const idx = withdrawals.findIndex(w => w.id === wId);
+  if (idx >= 0) { withdrawals[idx].status = 'rejected'; DB.saveWithdrawals(withdrawals); renderAdmin(); showToast('Withdrawal rejected', 'info'); }
+}
+
+function adminDeleteWithdraw(wId) {
+  DB.saveWithdrawals(DB.withdrawals().filter(w => w.id !== wId));
+  renderAdmin(); showToast('Deleted', 'info');
+}
+
+function renderAdminUsers() {
+  const users = DB.users();
+  const orders = DB.packages();
+  const el = document.getElementById('adminUserList');
+  const list = Object.values(users);
+  if (list.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No users yet</p>'; return; }
+  list.sort((a,b) => b.joinDate - a.joinDate);
+  el.innerHTML = list.map(u => {
+    const active = orders.filter(o=>o.userId===u.phone&&o.status==='active').length;
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 mb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full gradient-blue flex items-center justify-center text-white font-bold text-sm flex-shrink-0">${u.name.charAt(0).toUpperCase()}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-white font-semibold text-sm truncate">${u.name}</p>
+          <p class="text-gray-400 text-xs">${u.phone}</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-samsung-gold font-bold text-sm">${fmt(u.balance||0)}</p>
+          <p class="text-gray-500 text-xs">${active} active</p>
+        </div>
+      </div>
+      <div class="mt-2 flex gap-3 text-xs text-gray-500 flex-wrap">
+        <span>Joined: ${fmtDate(u.joinDate)}</span>
+        <span>Code: ${u.refCode}</span>
+        ${u.referredBy ? `<span>Ref by: ${u.referredBy.slice(-6)}</span>` : ''}
+      </div>
+      <div class="mt-2 flex gap-2">
+        <button onclick="adminDeleteUser('${u.phone}')" class="border border-red-900 text-red-500 px-3 py-1.5 rounded-lg text-xs font-bold">🗑 Delete User</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminDeleteUser(phone) {
+  const users = DB.users();
+  delete users[phone];
+  DB.saveUsers(users);
+  renderAdmin(); showToast('User deleted', 'info');
+}
+
+// ============================================================
+// DOM READY
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Proof image preview
+  document.getElementById('proofInput').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => { document.getElementById('proofImg').src = e.target.result; document.getElementById('proofPreview').style.display = 'block'; };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Withdraw amount calculator
+  document.getElementById('withdrawAmount').addEventListener('input', function() {
+    const amt = parseFloat(this.value);
+    const calcEl = document.getElementById('withdrawCalc');
+    if (amt > 0) {
+      calcEl.style.display = 'block';
+      const tax = Math.round(amt * 0.18);
+      document.getElementById('calcRequested').textContent = fmt(amt);
+      document.getElementById('calcTax').textContent = fmt(tax);
+      document.getElementById('calcReceive').textContent = fmt(amt - tax);
+    } else { calcEl.style.display = 'none'; }
+  });
+
+  // Auto-login
+  const savedPhone = DB.currentUser();
+  if (savedPhone) {
+    const users = DB.users();
+    if (users[savedPhone]) {
+      currentUser = users[savedPhone];
+      showApp();
+      return;
+    }
+  }
+  document.getElementById('view-auth').style.display = 'flex';
+  document.getElementById('view-auth').classList.add('active');
+});
+</script>
+
+
+</body></html>!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Samsung Earning Platform</title>
+  <meta name="description" content="Samsung Earning Platform — Invest in Samsung packages and earn daily income automatically."/>
+  <meta property="og:title" content="Samsung Earning Platform"/>
+  <meta property="og:description" content="Invest in Samsung packages and earn daily income automatically. Referral bonuses, daily check-in, fast withdrawals."/>
+  <meta property="og:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9bues0.jpg"/>
+  <meta property="og:url" content="https://samsung-earning.onspace.app"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Samsung Earning Platform"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Samsung Earning Platform"/>
+  <meta name="twitter:description" content="Invest in Samsung packages and earn daily income automatically."/>
+  <meta name="twitter:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9bues0.jpg"/>
+  <meta name="twitter:url" content="https://samsung-earning.onspace.app"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            samsung: { blue: '#1428A0', dark: '#0A0F2E', mid: '#111827', card: '#1a2035', border: '#2a3a5c', light: '#4a6fa5', gold: '#FFD700', goldLight: '#FFF3B0' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0A0F2E; color: #fff; overflow-x: hidden; }
+    .view { display: none; }
+    .view.active { display: flex; flex-direction: column; min-height: 100vh; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; }
+    .page-content { padding-bottom: 80px; }
+    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0A0F2E; } ::-webkit-scrollbar-thumb { background: #1428A0; border-radius: 2px; }
+    .gradient-gold { background: linear-gradient(135deg, #FFD700, #FFA500); }
+    .gradient-blue { background: linear-gradient(135deg, #1428A0, #2563eb); }
+    .card-glow { box-shadow: 0 0 20px rgba(20,40,160,0.3); }
+    .gold-glow { box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+    .pkg-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .pkg-card:active { transform: scale(0.98); }
+    .btn-primary { background: linear-gradient(135deg, #1428A0, #2563eb); color: #fff; border: none; cursor: pointer; transition: opacity 0.2s, transform 0.15s; }
+    .btn-primary:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0A0F2E; border: none; cursor: pointer; font-weight: 700; transition: opacity 0.2s, transform 0.15s; }
+    .btn-gold:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-mtn { background: linear-gradient(135deg, #FFD700, #FFC200); color: #1a0a00; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+    .btn-mtn:active { opacity: 0.85; transform: scale(0.98); }
+    .btn-airtel { background: linear-gradient(135deg, #e60000, #cc0000); color: #fff; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+    .btn-airtel:active { opacity: 0.85; transform: scale(0.98); }
+    .input-field { background: #1a2035; border: 1px solid #2a3a5c; color: #fff; outline: none; transition: border-color 0.2s; }
+    .input-field:focus { border-color: #1428A0; }
+    .input-field::placeholder { color: #6b7280; }
+    .phone-input-wrap { display: flex; align-items: center; background: #1a2035; border: 1px solid #2a3a5c; border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+    .phone-input-wrap:focus-within { border-color: #1428A0; }
+    .phone-prefix { display: flex; align-items: center; gap: 5px; padding: 0 10px; border-right: 1px solid #2a3a5c; white-space: nowrap; background: #111827; height: 100%; min-height: 48px; }
+    .phone-input-wrap input { background: transparent; border: none; outline: none; color: #fff; padding: 12px 12px; flex: 1; font-size: 14px; }
+    .phone-input-wrap input::placeholder { color: #6b7280; }
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 90vw; text-align: center; }
+    .toast.show { opacity: 1; }
+    .badge-active { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-pending { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+    .badge-paid { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-expired { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .nav-item { transition: color 0.2s; cursor: pointer; }
+    .nav-item.active-nav { color: #FFD700; }
+    .nav-item:not(.active-nav) { color: #6b7280; }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.80); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .modal-box { background: #1a2035; border: 1px solid #2a3a5c; border-radius: 20px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
+    .tab-btn { transition: all 0.2s; cursor: pointer; }
+    .tab-btn.active-tab { background: linear-gradient(135deg, #1428A0, #2563eb); color: #fff; }
+    .tab-btn:not(.active-tab) { background: #111827; color: #6b7280; }
+    .progress-bar { height: 6px; background: #2a3a5c; border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #1428A0, #FFD700); border-radius: 3px; transition: width 0.4s; }
+    select option { background: #1a2035; color: #fff; }
+    .network-option { border: 2px solid transparent; border-radius: 16px; cursor: pointer; transition: all 0.2s; }
+    .network-option.selected-mtn { border-color: #FFD700; background: rgba(255,215,0,0.08); }
+    .network-option.selected-airtel { border-color: #e60000; background: rgba(230,0,0,0.08); }
+    .network-option:active { transform: scale(0.97); }
+    .mtn-logo { background: linear-gradient(135deg, #FFD700, #FFC200); }
+    .airtel-logo { background: linear-gradient(135deg, #e60000, #cc0000); }
+    .flower-auth-btn { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 22px; transition: all 0.2s; z-index: 10; }
+    .flower-auth-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.2); }
+    textarea.input-field { resize: vertical; }
+  </style>
+</head>
+<body>
+
+<!-- ======= TOAST ======= -->
+<div id="toast" class="toast"></div>
+
+<!-- ================================================================
+     VIEW: AUTH (Login / Create Account)
+================================================================ -->
+<div id="view-auth" class="view active flex-col items-center justify-center min-h-screen px-4 py-8 relative" style="background: linear-gradient(160deg, #0A0F2E 0%, #1428A0 50%, #0A0F2E 100%);">
+
+  <!-- Admin Flower Button — top right of auth screen -->
+  <button class="flower-auth-btn" id="flowerAuthBtn" title="Admin Login" onclick="openAdminLogin()">🌸</button>
+
+  <div class="w-full max-w-sm">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl gradient-blue mb-4 card-glow">
+        <span class="text-4xl font-black text-white">S</span>
+      </div>
+      <h1 class="text-2xl font-black text-white tracking-wide">SAMSUNG</h1>
+      <p class="text-samsung-gold font-semibold text-sm tracking-widest">EARNING PLATFORM</p>
+    </div>
+
+    <!-- Tab Switch -->
+    <div class="flex rounded-xl overflow-hidden mb-6 border border-white/20">
+      <button class="flex-1 py-3 text-sm font-semibold tab-btn active-tab" id="tabLogin" onclick="switchAuthTab(&#39;login&#39;)">Login</button>
+      <button class="flex-1 py-3 text-sm font-semibold tab-btn" id="tabRegister" onclick="switchAuthTab(&#39;register&#39;)">Create Account</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="formLogin">
+      <div class="space-y-4">
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Phone Number</label>
+          <div class="phone-input-wrap">
+            <div class="phone-prefix">
+              <span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span>
+            </div>
+            <input type="tel" id="loginPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Password</label>
+          <input type="password" id="loginPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Your password"/>
+        </div>
+        <button class="btn-primary w-full py-4 rounded-xl font-bold text-base" onclick="doLogin()">Login</button>
+      </div>
+    </div>
+
+    <!-- Create Account Form -->
+    <div id="formRegister" style="display:none">
+      <div class="space-y-4">
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Full Name</label>
+          <input type="text" id="regName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Your full name"/>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Phone Number</label>
+          <div class="phone-input-wrap">
+            <div class="phone-prefix">
+              <span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span>
+            </div>
+            <input type="tel" id="regPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Create Password</label>
+          <input type="password" id="regPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Create a strong password"/>
+        </div>
+        <div>
+          <label class="text-blue-200 text-xs mb-1 block">Referral Code (optional)</label>
+          <input type="text" id="regRef" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Enter referral code if invited"/>
+        </div>
+        <button class="btn-primary w-full py-4 rounded-xl font-bold text-base" onclick="doRegister()">Create Account</button>
+      </div>
+    </div>
+
+    <p class="text-center text-blue-200/60 text-xs mt-6">Need help? <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="text-samsung-gold">Join Telegram Support</a></p>
+  </div>
+</div>
+
+<!-- ================================================================
+     RULES POPUP
+================================================================ -->
+<div id="rulesModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6">
+    <div class="text-center mb-5">
+      <div class="text-4xl mb-2">📋</div>
+      <h2 class="text-xl font-black text-white">Platform Rules</h2>
+      <p class="text-gray-400 text-xs mt-1">Please read before continuing</p>
+    </div>
+    <div class="space-y-4 text-sm">
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">1. Daily Bonus</h3>
+        <p class="text-gray-300">Check in daily to get <span class="text-green-400 font-bold">+100 UGX</span> automatically credited to your balance.</p>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">2. Referral Earnings</h3>
+        <div class="space-y-1 text-gray-300">
+          <p>🟢 <strong class="text-white">L1 Direct:</strong> 30% — unlimited people</p>
+          <p>🔵 <strong class="text-white">L2:</strong> 2% on 1st person of L1</p>
+          <p>🟣 <strong class="text-white">L3:</strong> 1% on 1st person of L2</p>
+          <p>⚫ <strong class="text-white">L4+:</strong> 0%</p>
+          <p class="text-yellow-400 text-xs mt-2">⚠ Commission paid only after package purchase is approved</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">3. Payment &amp; Withdrawal</h3>
+        <div class="text-gray-300 space-y-1">
+          <p>• Pay via MTN or Airtel Money, upload proof then press SUBMIT</p>
+          <p>• Minimum Withdrawal: <span class="text-white font-bold">7,000 UGX</span></p>
+          <p>• Tax: <span class="text-red-400 font-bold">18%</span> on every withdrawal</p>
+          <p>• Max <span class="text-white font-bold">2 withdrawals</span> per day</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-4 border border-samsung-border">
+        <h3 class="font-bold text-samsung-gold mb-2">4. General Rules</h3>
+        <div class="text-gray-300 space-y-1">
+          <p>• 1 account per person</p>
+          <p>• Fake payments = <span class="text-red-400 font-bold">Ban</span></p>
+          <p>• Fake referrals = <span class="text-red-400 font-bold">Ban</span></p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-gold w-full py-4 rounded-xl font-black text-base mt-6" onclick="closeRules()">I Understand — Continue ✓</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     MAIN APP WRAPPER
+================================================================ -->
+<div id="appWrapper" style="display:none">
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="bottom-nav bg-samsung-mid border-t border-samsung-border">
+    <div class="flex items-center justify-around py-2">
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1 active-nav" id="nav-home" onclick="gotoPage(&#39;home&#39;)">
+        <i class="fas fa-home text-xl"></i><span class="text-xs font-medium">Home</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-packages" onclick="gotoPage(&#39;packages&#39;)">
+        <i class="fas fa-mobile-alt text-xl"></i><span class="text-xs font-medium">Packages</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-team" onclick="gotoPage(&#39;team&#39;)">
+        <i class="fas fa-users text-xl"></i><span class="text-xs font-medium">My Team</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-withdraw" onclick="gotoPage(&#39;withdraw&#39;)">
+        <i class="fas fa-wallet text-xl"></i><span class="text-xs font-medium">Withdraw</span>
+      </button>
+      <button class="nav-item flex flex-col items-center gap-1 px-3 py-1" id="nav-mine" onclick="gotoPage(&#39;mine&#39;)">
+        <i class="fas fa-user-circle text-xl"></i><span class="text-xs font-medium">Mine</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================================================================
+       PAGE: HOME
+  ================================================================ -->
+  <div id="page-home" class="view active page-content">
+    <!-- Header -->
+    <div class="gradient-blue px-4 pt-8 pb-16">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <p class="text-blue-200 text-xs font-medium">Welcome back 👋</p>
+          <h2 class="text-white font-bold text-lg" id="homeUserName">Loading...</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition">
+            <i class="fab fa-telegram text-white text-lg"></i>
+          </a>
+          <button onclick="shareApp()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition">
+            <i class="fas fa-share-alt text-white text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Balance Card -->
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/20">
+        <p class="text-blue-200 text-xs mb-1">Total Balance</p>
+        <h3 class="text-3xl font-black text-white mb-1" id="homeBalance">0 UGX</h3>
+        <p class="text-blue-200 text-xs" id="homePhone">---</p>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="px-4 -mt-8">
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">💰</div>
+          <p class="text-gray-400 text-xs">Today Earned</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeTodayEarned">0</p>
+        </div>
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">📦</div>
+          <p class="text-gray-400 text-xs">Active Pkgs</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeActivePkgs">0</p>
+        </div>
+        <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center card-glow">
+          <div class="text-samsung-gold text-xl mb-1">👥</div>
+          <p class="text-gray-400 text-xs">My Referrals</p>
+          <p class="text-white font-bold text-sm mt-1" id="homeReferrals">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referral Code -->
+    <div class="px-4 mt-5">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold text-white text-sm">Your Referral Code</h3>
+          <span class="text-xs text-gray-400">Earn 30% per invite</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex-1 bg-samsung-dark rounded-xl px-3 py-2 border border-samsung-border">
+            <p class="text-samsung-gold font-mono font-bold text-base" id="homeRefCode">---</p>
+          </div>
+          <button onclick="copyRefCode()" class="btn-primary px-4 py-2 rounded-xl text-sm font-semibold">Copy</button>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <button onclick="shareRefLink()" class="flex-1 btn-gold py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+            <i class="fas fa-share-alt text-xs"></i> Share Link
+          </button>
+          <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="flex-1 py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 bg-blue-500/20 border border-blue-500/30 text-blue-300">
+            <i class="fab fa-telegram text-xs"></i> Telegram
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Packages -->
+    <div class="px-4 mt-5 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-white">Active Packages</h3>
+        <button onclick="gotoPage(&#39;my-products&#39;)" class="text-samsung-gold text-xs font-medium">View All →</button>
+      </div>
+      <div id="homeActivePkgList" class="space-y-3"></div>
+    </div>
+
+    <!-- Company Payment Numbers -->
+    <div class="px-4 mb-6">
+      <h3 class="font-bold text-white text-sm mb-3">📱 Company Payment Numbers</h3>
+      <!-- MTN -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden mb-3">
+        <button onclick="togglePayNum(&#39;mtn&#39;)" class="w-full flex items-center gap-3 p-4">
+          <div class="w-12 h-12 mtn-logo rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="text-black font-black text-xs text-center leading-tight">MTN<br/>Money</span>
+          </div>
+          <div class="flex-1 text-left">
+            <p class="text-white font-bold text-sm">MTN Mobile Money</p>
+            <p class="text-gray-400 text-xs">Tap to see number</p>
+          </div>
+          <i class="fas fa-chevron-down text-gray-400 text-sm" id="mtnChevron"></i>
+        </button>
+        <div id="mtnDetails" class="px-4 pb-4" style="display:none">
+          <div class="bg-samsung-dark rounded-xl p-3 flex items-center justify-between">
+            <div>
+              <p class="text-white font-bold">0782031407</p>
+              <p class="text-gray-400 text-xs">Kyosiimire Joan</p>
+            </div>
+            <button onclick="copyText(&#39;0782031407&#39;)" class="text-samsung-gold text-xs border border-samsung-gold/30 px-3 py-1 rounded-lg">Copy</button>
+          </div>
+        </div>
+      </div>
+      <!-- Airtel -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden">
+        <button onclick="togglePayNum(&#39;airtel&#39;)" class="w-full flex items-center gap-3 p-4">
+          <div class="w-12 h-12 airtel-logo rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="text-white font-black text-xs text-center leading-tight">Airtel<br/>Money</span>
+          </div>
+          <div class="flex-1 text-left">
+            <p class="text-white font-bold text-sm">Airtel Money</p>
+            <p class="text-gray-400 text-xs">Tap to see number</p>
+          </div>
+          <i class="fas fa-chevron-down text-gray-400 text-sm" id="airtelChevron"></i>
+        </button>
+        <div id="airtelDetails" class="px-4 pb-4" style="display:none">
+          <div class="bg-samsung-dark rounded-xl p-3 flex items-center justify-between">
+            <div>
+              <p class="text-white font-bold">0746085840</p>
+              <p class="text-gray-400 text-xs">Nabakooza Milly</p>
+            </div>
+            <button onclick="copyText(&#39;0746085840&#39;)" class="text-samsung-gold text-xs border border-samsung-gold/30 px-3 py-1 rounded-lg">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: PACKAGES (Buy)
+  ================================================================ -->
+  <div id="page-packages" class="view page-content">
+    <div class="px-4 pt-8 pb-4">
+      <h2 class="text-2xl font-black text-white">Samsung Packages</h2>
+      <p class="text-gray-400 text-sm mt-1">Choose your investment level and start earning</p>
+    </div>
+    <!-- Hero phone image -->
+    <div class="px-4 mb-4">
+      <div class="relative rounded-2xl overflow-hidden h-40">
+        <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&amp;h=400&amp;fit=crop&amp;q=80" alt="Samsung Galaxy lineup" class="w-full h-full object-cover" loading="lazy"/>
+        <div class="absolute inset-0 bg-gradient-to-r from-samsung-dark/80 to-transparent flex items-center px-5">
+          <div>
+            <p class="text-samsung-gold font-bold text-xs tracking-wider">INVEST TODAY</p>
+            <p class="text-white font-black text-xl">Earn Daily Income</p>
+            <p class="text-blue-200 text-xs mt-1">11 Samsung packages available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Group Filter -->
+    <div class="px-4 mb-4 flex gap-2 overflow-x-auto pb-1">
+      <button class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grpAll" onclick="filterGroup(&#39;all&#39;)">All</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp1" onclick="filterGroup(&#39;1&#39;)">Group 1</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp2" onclick="filterGroup(&#39;2&#39;)">Group 2</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="grp3" onclick="filterGroup(&#39;3&#39;)">Group 3</button>
+    </div>
+    <div id="packageList" class="px-4 space-y-4 pb-8"></div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: MY PRODUCTS
+  ================================================================ -->
+  <div id="page-my-products" class="view page-content">
+    <div class="px-4 pt-8 pb-4 flex items-center gap-3">
+      <button onclick="gotoPage(&#39;home&#39;)" class="w-8 h-8 flex items-center justify-center rounded-full bg-samsung-card border border-samsung-border">
+        <i class="fas fa-arrow-left text-gray-400 text-sm"></i>
+      </button>
+      <div>
+        <h2 class="text-xl font-black text-white">My Products</h2>
+        <p class="text-gray-400 text-xs">All your investment packages</p>
+      </div>
+    </div>
+    <!-- banner -->
+    <div class="px-4 mb-4">
+      <img src="https://images.unsplash.com/photo-1567581935884-3349723552ca?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Samsung products" class="w-full h-32 object-cover rounded-2xl" loading="lazy"/>
+    </div>
+    <div id="myProductsList" class="px-4 space-y-4 pb-8"></div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: TEAM
+  ================================================================ -->
+  <div id="page-team" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-6 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Team" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative">
+        <h2 class="text-xl font-black text-white">My Team</h2>
+        <p class="text-blue-200 text-sm mt-1">Your referral network earnings</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4 grid grid-cols-3 gap-3">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-green-400 font-black text-2xl" id="teamL1Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L1 Direct</p>
+        <p class="text-green-400 text-xs font-bold">30%</p>
+      </div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-blue-400 font-black text-2xl" id="teamL2Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L2</p>
+        <p class="text-blue-400 text-xs font-bold">2%</p>
+      </div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 text-center">
+        <p class="text-purple-400 font-black text-2xl" id="teamL3Count">0</p>
+        <p class="text-gray-400 text-xs mt-1">L3</p>
+        <p class="text-purple-400 text-xs font-bold">1%</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 gold-glow">
+        <p class="text-gray-400 text-sm">Total Referral Earnings</p>
+        <p class="text-samsung-gold font-black text-3xl mt-1" id="teamTotalEarnings">0 UGX</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4">
+      <h3 class="font-bold text-white mb-3">L1 Members</h3>
+      <div id="teamL1List" class="space-y-3">
+        <p class="text-gray-500 text-sm text-center py-6">No referrals yet. Share your code to invite friends!</p>
+      </div>
+    </div>
+    <div class="px-4 mt-4 mb-4">
+      <button onclick="shareRefLink()" class="btn-gold w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+        <i class="fas fa-share-alt"></i> Share Referral Link
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: WITHDRAW
+  ================================================================ -->
+  <div id="page-withdraw" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-16 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Withdraw" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative">
+        <h2 class="text-xl font-black text-white">Withdraw</h2>
+        <p class="text-blue-200 text-sm mt-1">Request money to your mobile wallet</p>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-8 mb-5">
+      <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-5">
+        <p class="text-blue-200 text-xs mb-1">Available Balance</p>
+        <h3 class="text-3xl font-black text-white" id="withdrawBalance">0 UGX</h3>
+        <p class="text-blue-200 text-xs mt-2">18% tax applied · Max 2/day · Min 7,000 UGX</p>
+      </div>
+    </div>
+
+    <!-- Withdraw Form -->
+    <div class="px-4 mb-5">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4">
+        <h3 class="font-bold text-white mb-4">Request Withdrawal</h3>
+
+        <!-- Step 1: Choose Network -->
+        <p class="text-gray-400 text-xs mb-2 font-medium">STEP 1 — Choose Network</p>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="network-option p-3 text-center bg-samsung-dark" id="wNetMTN" onclick="selectWithdrawNet(&#39;MTN&#39;)">
+            <div class="w-12 h-12 mtn-logo rounded-xl mx-auto flex items-center justify-center mb-2">
+              <span class="text-black font-black text-xs">MTN</span>
+            </div>
+            <p class="text-white font-bold text-sm">MTN Money</p>
+          </div>
+          <div class="network-option p-3 text-center bg-samsung-dark" id="wNetAirtel" onclick="selectWithdrawNet(&#39;Airtel&#39;)">
+            <div class="w-12 h-12 airtel-logo rounded-xl mx-auto flex items-center justify-center mb-2">
+              <span class="text-white font-black text-xs">Airtel</span>
+            </div>
+            <p class="text-white font-bold text-sm">Airtel Money</p>
+          </div>
+        </div>
+
+        <!-- Step 2: Details -->
+        <div id="withdrawDetailsForm" style="display:none">
+          <p class="text-gray-400 text-xs mb-2 font-medium">STEP 2 — Your Details</p>
+          <div class="space-y-3">
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Registered Names</label>
+              <input type="text" id="wdName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Full name registered on mobile money"/>
+            </div>
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Mobile Money Number</label>
+              <div class="phone-input-wrap">
+                <div class="phone-prefix"><span>🇺🇬</span><span class="text-white text-sm font-semibold">+256</span></div>
+                <input type="tel" id="wdPhone" placeholder="7XXXXXXXX" maxlength="9"/>
+              </div>
+              <p class="text-gray-500 text-xs mt-1" id="wdNetworkNote">Enter your <span id="wdNetworkLabel">selected network</span> number</p>
+            </div>
+            <div>
+              <label class="text-gray-400 text-xs mb-1 block">Amount (UGX)</label>
+              <input type="number" id="withdrawAmount" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Minimum 7,000 UGX" min="7000"/>
+            </div>
+            <div id="withdrawCalc" class="bg-samsung-dark rounded-xl p-3 text-sm" style="display:none">
+              <div class="flex justify-between"><span class="text-gray-400">Requested:</span><span class="text-white" id="calcRequested">0 UGX</span></div>
+              <div class="flex justify-between mt-1"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400" id="calcTax">0 UGX</span></div>
+              <div class="flex justify-between mt-1 font-bold"><span class="text-gray-400">You Receive:</span><span class="text-green-400" id="calcReceive">0 UGX</span></div>
+            </div>
+            <button class="btn-gold w-full py-4 rounded-xl font-black text-base" onclick="submitWithdraw()" id="wdSubmitBtn">
+              Withdraw Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Withdrawal History -->
+    <div class="px-4 mb-4">
+      <h3 class="font-bold text-white mb-3">Withdrawal History</h3>
+      <div id="withdrawHistory" class="space-y-3">
+        <p class="text-gray-500 text-sm text-center py-6">No withdrawal requests yet</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: MINE (Profile)
+  ================================================================ -->
+  <div id="page-mine" class="view page-content">
+    <div class="gradient-blue px-4 pt-10 pb-16 relative overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800&amp;h=300&amp;fit=crop&amp;q=80" alt="Samsung S24" class="absolute inset-0 w-full h-full object-cover opacity-10" loading="lazy"/>
+      <div class="relative flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full gradient-gold flex items-center justify-center text-2xl font-black text-samsung-dark" id="mineAvatar">N</div>
+        <div>
+          <h2 class="text-white font-black text-xl" id="mineName">---</h2>
+          <p class="text-blue-200 text-sm" id="minePhone">---</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-8">
+      <!-- Check In -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 mb-4 gold-glow">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-white">Daily Check-In</h3>
+            <p class="text-gray-400 text-xs mt-1">Get +100 UGX free every day</p>
+            <p class="text-gray-500 text-xs mt-1" id="lastCheckinText">Last check-in: Never</p>
+          </div>
+          <button id="checkinBtn" class="btn-gold px-5 py-3 rounded-xl font-bold text-sm" onclick="doCheckin()">Check In</button>
+        </div>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-4 mb-4">
+        <p class="text-gray-400 text-xs mb-1">Total Balance</p>
+        <p class="text-white font-black text-3xl" id="mineBalance">0 UGX</p>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden mb-4">
+        <button onclick="gotoPage(&#39;my-products&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl gradient-blue flex items-center justify-center"><i class="fas fa-mobile-alt text-white text-xs"></i></div><span class="text-white text-sm font-medium">My Products</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="gotoPage(&#39;team&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-purple-900 flex items-center justify-center"><i class="fas fa-users text-purple-400 text-xs"></i></div><span class="text-white text-sm font-medium">My Team</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="gotoPage(&#39;withdraw&#39;)" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-green-900 flex items-center justify-center"><i class="fas fa-wallet text-green-400 text-xs"></i></div><span class="text-white text-sm font-medium">Withdraw</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <a href="https://t.me/+adk1usHyKF4yYzQ0" target="_blank" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-blue-900 flex items-center justify-center"><i class="fab fa-telegram text-blue-400 text-xs"></i></div><span class="text-white text-sm font-medium">Telegram Support</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </a>
+        <button onclick="shareApp()" class="w-full flex items-center justify-between px-4 py-4 border-b border-samsung-border hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-yellow-900 flex items-center justify-center"><i class="fas fa-share-alt text-yellow-400 text-xs"></i></div><span class="text-white text-sm font-medium">Share App</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+        <button onclick="doLogout()" class="w-full flex items-center justify-between px-4 py-4 hover:bg-white/5 transition">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-xl bg-red-900 flex items-center justify-center"><i class="fas fa-sign-out-alt text-red-400 text-xs"></i></div><span class="text-red-400 text-sm font-medium">Logout</span></div>
+          <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PAGE: ADMIN PANEL
+  ================================================================ -->
+  <div id="page-admin" class="view page-content">
+    <div class="gradient-blue px-4 pt-8 pb-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-xl font-black text-white">🌸 Admin Panel</h2>
+        <p class="text-blue-200 text-xs">Full platform control — Nabakooza</p>
+      </div>
+      <button onclick="doLogout()" class="btn-primary px-3 py-2 rounded-xl text-xs font-semibold">← Exit</button>
+    </div>
+
+    <!-- Admin Stats -->
+    <div class="px-4 mt-4 grid grid-cols-2 gap-3 mb-4">
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Total Users</p><p class="text-white font-black text-xl" id="adminTotalUsers">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Active Packages</p><p class="text-white font-black text-xl" id="adminActivePkgs">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3"><p class="text-gray-400 text-xs">Pending Packages</p><p class="text-yellow-400 font-black text-xl" id="adminPendingPkgs">0</p></div>
+      <div class="bg-samsung-card border border-samsung-border rounded-2xl p-3 relative">
+        <p class="text-gray-400 text-xs">Pending Withdrawals</p>
+        <p class="text-yellow-400 font-black text-xl" id="adminPendingWithdraws">0</p>
+        <span id="adminWithdrawBadge" class="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full pulse-dot" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="px-4 mb-4 flex gap-2 overflow-x-auto pb-1">
+      <button class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabPackages" onclick="switchAdminTab(&#39;packages&#39;)">📦 Packages</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabWithdrawals" onclick="switchAdminTab(&#39;withdrawals&#39;)">💸 Withdrawals</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" id="adminTabUsers" onclick="switchAdminTab(&#39;users&#39;)">👥 Users</button>
+    </div>
+
+    <div id="adminPanelPackages" class="px-4 mb-8"><div id="adminPkgList"></div></div>
+    <div id="adminPanelWithdrawals" class="px-4 mb-8" style="display:none"><div id="adminWithdrawList"></div></div>
+    <div id="adminPanelUsers" class="px-4 mb-8" style="display:none"><div id="adminUserList"></div></div>
+  </div>
+
+</div><!-- end appWrapper -->
+
+<!-- ================================================================
+     MODALS
+================================================================ -->
+
+<!-- Package Buy Modal -->
+<div id="buyModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-5">
+    <div class="flex items-center gap-3 mb-4">
+      <img id="buyModalImg" src="" alt="" class="w-16 h-20 rounded-xl object-cover"/>
+      <div>
+        <h3 class="text-lg font-black text-white" id="buyModalTitle">Buy Package</h3>
+        <p class="text-gray-400 text-xs" id="buyModalSub">Samsung Galaxy</p>
+      </div>
+    </div>
+    <div class="bg-samsung-dark rounded-xl p-3 text-sm mb-4">
+      <div class="flex justify-between"><span class="text-gray-400">You Pay:</span><span class="text-white font-bold" id="buyModalPay">---</span></div>
+      <div class="flex justify-between mt-1"><span class="text-gray-400">Daily Income:</span><span class="text-green-400 font-bold" id="buyModalDaily">---</span></div>
+      <div class="flex justify-between mt-1"><span class="text-gray-400">Duration:</span><span class="text-white font-bold" id="buyModalDays">---</span></div>
+    </div>
+
+    <!-- Pay Numbers -->
+    <div class="bg-samsung-card border border-samsung-border rounded-xl p-3 mb-4">
+      <p class="text-gray-400 text-xs mb-2">Pay to company number:</p>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between bg-samsung-dark rounded-lg p-2">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 mtn-logo rounded-lg flex items-center justify-center"><span class="text-black font-black text-xs">MTN</span></div>
+            <div><p class="text-white text-sm font-bold">0782031407</p><p class="text-gray-400 text-xs">Kyosiimire Joan</p></div>
+          </div>
+          <button onclick="copyText(&#39;0782031407&#39;)" class="text-samsung-gold text-xs">Copy</button>
+        </div>
+        <div class="flex items-center justify-between bg-samsung-dark rounded-lg p-2">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 airtel-logo rounded-lg flex items-center justify-center"><span class="text-white font-black text-xs">Air</span></div>
+            <div><p class="text-white text-sm font-bold">0746085840</p><p class="text-gray-400 text-xs">Nabakooza Milly</p></div>
+          </div>
+          <button onclick="copyText(&#39;0746085840&#39;)" class="text-samsung-gold text-xs">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proof Upload -->
+    <div class="mb-4">
+      <label class="text-gray-400 text-xs mb-2 block font-medium">Upload Payment Screenshot</label>
+      <input type="file" id="proofInput" accept="image/*" class="input-field w-full px-3 py-2 rounded-xl text-sm mb-2"/>
+      <div id="proofPreview" class="mb-2" style="display:none">
+        <img id="proofImg" src="" alt="Payment proof" class="w-full rounded-xl max-h-36 object-cover"/>
+      </div>
+      <label class="text-gray-400 text-xs mb-1 block font-medium">Or Paste Payment Message</label>
+      <textarea id="proofText" class="input-field w-full px-3 py-2 rounded-xl text-sm" rows="3" placeholder="Paste your MTN/Airtel payment confirmation message here..."></textarea>
+    </div>
+
+    <div class="flex gap-3">
+      <button class="flex-1 py-3 rounded-xl border border-samsung-border text-gray-400 font-semibold text-sm" onclick="closeBuyModal()">Cancel</button>
+      <button class="flex-1 btn-gold py-3 rounded-xl font-bold text-sm" onclick="submitBuy()">SUBMIT</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div id="adminLoginModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6 max-w-xs">
+    <div class="text-center mb-5">
+      <div class="text-5xl mb-2">🌸</div>
+      <h3 class="text-lg font-black text-white">Admin Access</h3>
+      <p class="text-gray-400 text-xs mt-1">Samsung Earning Platform</p>
+    </div>
+    <div class="space-y-3">
+      <input type="text" id="adminLoginName" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Username"/>
+      <input type="password" id="adminLoginPass" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Password"/>
+      <button class="btn-primary w-full py-3 rounded-xl font-bold" onclick="verifyAdminLogin()">Login as Admin</button>
+      <button class="w-full py-3 rounded-xl border border-samsung-border text-gray-400 text-sm font-medium" onclick="document.getElementById(&#39;adminLoginModal&#39;).style.display=&#39;none&#39;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Extend Package Modal -->
+<div id="extendModal" class="modal-overlay" style="display:none">
+  <div class="modal-box p-6 max-w-xs">
+    <h3 class="text-lg font-black text-white mb-4">Extend Package</h3>
+    <input type="number" id="extendDays" class="input-field w-full px-4 py-3 rounded-xl text-sm" placeholder="Days to add" min="1"/>
+    <div class="flex gap-3 mt-4">
+      <button class="flex-1 py-3 rounded-xl border border-samsung-border text-gray-400 text-sm" onclick="document.getElementById(&#39;extendModal&#39;).style.display=&#39;none&#39;">Cancel</button>
+      <button class="flex-1 btn-primary py-3 rounded-xl font-bold text-sm" onclick="confirmExtend()">Extend</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+// ============================================================
+// DATA LAYER
+// ============================================================
+const DB = {
+  get: (key, def = null) => { try { const v = localStorage.getItem('sep_' + key); return v ? JSON.parse(v) : def; } catch(e){ return def; } },
+  set: (key, val) => { try { localStorage.setItem('sep_' + key, JSON.stringify(val)); } catch(e){} },
+  users: () => DB.get('users', {}),
+  saveUsers: (u) => DB.set('users', u),
+  packages: () => DB.get('pkgOrders', []),
+  savePackages: (p) => DB.set('pkgOrders', p),
+  withdrawals: () => DB.get('withdrawals', []),
+  saveWithdrawals: (w) => DB.set('withdrawals', w),
+  currentUser: () => DB.get('currentUser', null),
+  setCurrentUser: (id) => DB.set('currentUser', id),
+  clearCurrentUser: () => DB.set('currentUser', null)
+};
+
+// ============================================================
+// PACKAGES DEFINITION
+// ============================================================
+const PACKAGES = [
+  { id: 'a05',    group: '1', phone: 'Galaxy A05',         pay: 15000,    daily: 3000,    days: 60,  img: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=500&fit=crop&q=80',  color: '#1f6feb' },
+  { id: 'a15',    group: '1', phone: 'Galaxy A15',         pay: 30000,    daily: 7000,    days: 60,  img: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400&h=500&fit=crop&q=80',  color: '#1f6feb' },
+  { id: 'a25',    group: '2', phone: 'Galaxy A25',         pay: 50000,    daily: 12500,   days: 180, img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 'a35',    group: '2', phone: 'Galaxy A35',         pay: 100000,   daily: 26000,   days: 180, img: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 'a55',    group: '2', phone: 'Galaxy A55',         pay: 150000,   daily: 40000,   days: 180, img: 'https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=400&h=500&fit=crop&q=80',  color: '#388bfd' },
+  { id: 's23fe',  group: '3', phone: 'Galaxy S23 FE',      pay: 300000,   daily: 90000,   days: 210, img: 'https://images.unsplash.com/photo-1592910147752-a97764eff74b?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24',    group: '3', phone: 'Galaxy S24',         pay: 500000,   daily: 160000,  days: 210, img: 'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24p',   group: '3', phone: 'Galaxy S24+',        pay: 800000,   daily: 280200,  days: 210, img: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=500&fit=crop&q=80',  color: '#FFD700' },
+  { id: 's24u',   group: '3', phone: 'Galaxy S24 Ultra',   pay: 1200000,  daily: 450000,  days: 210, img: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&h=500&fit=crop&q=80',  color: '#FFA500' },
+  { id: 'zflip6', group: '3', phone: 'Galaxy Z Flip6',     pay: 1300000,  daily: 600000,  days: 210, img: 'https://images.unsplash.com/photo-1628571862661-5b1e4a1d1b52?w=400&h=500&fit=crop&q=80',  color: '#FFA500' },
+  { id: 'zfold6', group: '3', phone: 'Galaxy Z Fold6 VIP', pay: 2000000,  daily: 8805000, days: 210, img: 'https://images.unsplash.com/photo-1640166304015-a6f7f8bfb875?w=400&h=500&fit=crop&q=80',  color: '#ff4500', vip: true },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentPage = 'home';
+let currentUser = null;
+let buyingPkgId = null;
+let extendingId = null;
+let currentAdminTab = 'packages';
+let selectedWithdrawNet = '';
+
+// ============================================================
+// UTILS
+// ============================================================
+function fmt(n) { return Number(n).toLocaleString() + ' UGX'; }
+function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-UG', {day:'2-digit',month:'short',year:'numeric'}) : '---'; }
+function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-UG', {hour:'2-digit',minute:'2-digit'}) : ''; }
+function genCode() { return 'SEP' + Math.random().toString(36).substr(2,6).toUpperCase(); }
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#1428A0';
+  t.style.color = '#fff';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+function copyText(txt) {
+  navigator.clipboard.writeText(txt).then(() => showToast('Copied!', 'success')).catch(() => {
+    const el = document.createElement('textarea'); el.value = txt; document.body.appendChild(el);
+    el.select(); document.execCommand('copy'); document.body.removeChild(el);
+    showToast('Copied!', 'success');
+  });
+}
+function now() { return Date.now(); }
+// Normalize phone: strip leading 0, keep 9 digits, prepend +256
+function fullPhone(nine) { return '+256' + nine.replace(/^0+/, ''); }
+function parseInputPhone(val) {
+  // Accept 9-digit input (starting with 7)
+  return val.trim();
+}
+
+// ============================================================
+// TOGGLE PAYMENT NUMBERS
+// ============================================================
+function togglePayNum(net) {
+  const det = document.getElementById(net + 'Details');
+  const chev = document.getElementById(net + 'Chevron');
+  if (det.style.display === 'none') {
+    det.style.display = 'block';
+    chev.classList.replace('fa-chevron-down','fa-chevron-up');
+  } else {
+    det.style.display = 'none';
+    chev.classList.replace('fa-chevron-up','fa-chevron-down');
+  }
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function switchAuthTab(tab) {
+  document.getElementById('tabLogin').classList.toggle('active-tab', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active-tab', tab === 'register');
+  document.getElementById('formLogin').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('formRegister').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+function getPhoneFromInput(inputId) {
+  return document.getElementById(inputId).value.trim();
+}
+
+function validateUgPhone(nine) {
+  return /^[7]\d{8}$/.test(nine);
+}
+
+function doLogin() {
+  const phone9 = getPhoneFromInput('loginPhone');
+  const pass = document.getElementById('loginPass').value.trim();
+  if (!phone9 || !pass) return showToast('Fill all fields', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  const fullPh = fullPhone(phone9);
+  const users = DB.users();
+  // Try both formats
+  const user = users[fullPh] || users['0' + phone9];
+  if (!user) return showToast('Account not found', 'error');
+  if (user.pass !== pass) return showToast('Wrong password', 'error');
+  DB.setCurrentUser(user.phone);
+  currentUser = user;
+  showApp();
+  showRules();
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const phone9 = getPhoneFromInput('regPhone');
+  const pass = document.getElementById('regPass').value.trim();
+  const ref = document.getElementById('regRef').value.trim().toUpperCase();
+  if (!name || !phone9 || !pass) return showToast('Fill all required fields', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  const fullPh = fullPhone(phone9);
+  const users = DB.users();
+  if (users[fullPh]) return showToast('Account already exists with this number', 'error');
+  let referrerPhone = null;
+  if (ref) {
+    const refUser = Object.values(users).find(u => u.refCode === ref);
+    if (!refUser) return showToast('Invalid referral code', 'error');
+    referrerPhone = refUser.phone;
+  }
+  const newUser = { name, phone: fullPh, pass, refCode: genCode(), balance: 0, referredBy: referrerPhone, joinDate: now(), checkinDate: null, wallets: [] };
+  users[fullPh] = newUser;
+  if (referrerPhone && users[referrerPhone]) {
+    if (!users[referrerPhone].referrals) users[referrerPhone].referrals = [];
+    users[referrerPhone].referrals.push(fullPh);
+  }
+  DB.saveUsers(users);
+  DB.setCurrentUser(fullPh);
+  currentUser = newUser;
+  showApp();
+  showRules();
+}
+
+function doLogout() {
+  DB.clearCurrentUser();
+  currentUser = null;
+  document.getElementById('appWrapper').style.display = 'none';
+  document.getElementById('view-auth').classList.add('active');
+  document.getElementById('view-auth').style.display = 'flex';
+}
+
+function showApp() {
+  document.getElementById('view-auth').classList.remove('active');
+  document.getElementById('view-auth').style.display = 'none';
+  document.getElementById('appWrapper').style.display = 'block';
+  gotoPage('home');
+  processDailyIncome();
+}
+
+function showRules() { document.getElementById('rulesModal').style.display = 'flex'; }
+function closeRules() { document.getElementById('rulesModal').style.display = 'none'; }
+
+// ============================================================
+// NAV & VIEWS
+// ============================================================
+function gotoPage(page) {
+  currentPage = page;
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.remove('active'));
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) pageEl.classList.add('active');
+  ['home','packages','team','withdraw','mine'].forEach(n => {
+    const el = document.getElementById('nav-' + n);
+    if (el) el.classList.toggle('active-nav', n === page);
+  });
+  loadPageData(page);
+}
+
+function loadPageData(page) {
+  refreshUser();
+  if (page === 'home') renderHome();
+  if (page === 'packages') renderPackages('all');
+  if (page === 'my-products') renderMyProducts();
+  if (page === 'team') renderTeam();
+  if (page === 'withdraw') renderWithdraw();
+  if (page === 'mine') renderMine();
+  if (page === 'admin') renderAdmin();
+}
+
+function refreshUser() {
+  if (!currentUser) return;
+  const users = DB.users();
+  currentUser = users[currentUser.phone] || currentUser;
+}
+
+// ============================================================
+// HOME PAGE
+// ============================================================
+function renderHome() {
+  if (!currentUser) return;
+  document.getElementById('homeUserName').textContent = currentUser.name;
+  document.getElementById('homeBalance').textContent = fmt(currentUser.balance || 0);
+  document.getElementById('homePhone').textContent = currentUser.phone;
+  document.getElementById('homeRefCode').textContent = currentUser.refCode;
+  const myOrders = DB.packages().filter(o => o.userId === currentUser.phone && o.status === 'active');
+  document.getElementById('homeActivePkgs').textContent = myOrders.length;
+  const users = DB.users();
+  const refs = Object.values(users).filter(u => u.referredBy === currentUser.phone);
+  document.getElementById('homeReferrals').textContent = refs.length;
+  const todayEarned = myOrders.reduce((s, o) => { const pkg = PACKAGES.find(p => p.id === o.pkgId); return s + (pkg ? pkg.daily : 0); }, 0);
+  document.getElementById('homeTodayEarned').textContent = fmt(todayEarned);
+  const listEl = document.getElementById('homeActivePkgList');
+  if (myOrders.length === 0) {
+    listEl.innerHTML = `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 text-center">
+      <img src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=200&fit=crop" alt="Samsung phones" class="w-full h-28 object-cover rounded-xl mb-3" loading="lazy" />
+      <p class="text-gray-500 text-sm">No active packages yet</p>
+      <button onclick="gotoPage('packages')" class="btn-gold px-6 py-2 rounded-xl text-sm font-bold mt-3">Buy Package</button>
+    </div>`;
+  } else {
+    listEl.innerHTML = myOrders.slice(0,3).map(o => {
+      const pkg = PACKAGES.find(p => p.id === o.pkgId);
+      const daysLeft = o.expiryDate ? Math.max(0, Math.ceil((o.expiryDate - now()) / 86400000)) : 0;
+      return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 flex items-center gap-3">
+        <img src="${pkg.img}" alt="${pkg.phone}" class="w-14 h-16 rounded-xl object-cover flex-shrink-0" loading="lazy" />
+        <div class="flex-1 min-w-0">
+          <p class="text-white font-bold text-sm truncate">${pkg.phone}</p>
+          <p class="text-green-400 text-xs">+${fmt(pkg.daily)}/day</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-samsung-gold font-bold text-sm">${daysLeft}d</p>
+          <p class="text-gray-500 text-xs">left</p>
+        </div>
+      </div>`;
+    }).join('');
+    if (myOrders.length > 3) listEl.innerHTML += `<button onclick="gotoPage('my-products')" class="w-full text-center text-samsung-gold text-sm font-medium py-2">View all ${myOrders.length} packages →</button>`;
+  }
+}
+
+// ============================================================
+// PACKAGES PAGE
+// ============================================================
+function filterGroup(g) {
+  ['all','1','2','3'].forEach(x => {
+    const el = document.getElementById('grp' + (x==='all'?'All':x));
+    if (el) el.classList.toggle('active-tab', x === g);
+  });
+  renderPackages(g);
+}
+
+function renderPackages(group) {
+  const list = group === 'all' ? PACKAGES : PACKAGES.filter(p => p.group === group);
+  document.getElementById('packageList').innerHTML = list.map(pkg => `
+    <div class="pkg-card bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden" style="border-left:4px solid ${pkg.color}">
+      <div class="flex gap-3 p-4">
+        <div class="relative flex-shrink-0">
+          <img src="${pkg.img}" alt="${pkg.phone}" class="w-28 h-36 rounded-xl object-cover" loading="lazy" />
+          ${pkg.vip ? '<div class="absolute top-1 left-1 bg-yellow-500 text-black text-xs font-black px-2 py-0.5 rounded-lg">VIP</div>' : ''}
+          <div class="absolute bottom-1 left-1 bg-black/70 rounded-md px-1.5 py-0.5"><p class="text-white text-xs font-bold">Grp ${pkg.group}</p></div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-black text-white text-base">${pkg.phone}</h3>
+          <div class="mt-2 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Pay:</span><span class="text-white font-bold">${fmt(pkg.pay)}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Daily:</span><span class="text-green-400 font-bold">+${fmt(pkg.daily)}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Days:</span><span class="text-white font-bold">${pkg.days} Days</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Total:</span><span class="text-samsung-gold font-bold">${fmt(pkg.daily * pkg.days)}</span></div>
+          </div>
+          <div class="progress-bar mt-3"><div class="progress-fill" style="width:${Math.min(100,Math.round((pkg.daily/pkg.pay)*100))}%"></div></div>
+          <p class="text-gray-500 text-xs mt-1">${Math.round((pkg.daily/pkg.pay)*100)}% daily return</p>
+        </div>
+      </div>
+      <div class="px-4 pb-4">
+        <button class="btn-gold w-full py-3 rounded-xl font-black text-sm" onclick="openBuyModal('${pkg.id}')">Buy Now — ${fmt(pkg.pay)}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// BUY MODAL
+// ============================================================
+function openBuyModal(pkgId) {
+  if (!currentUser) return showToast('Please login first', 'error');
+  buyingPkgId = pkgId;
+  const pkg = PACKAGES.find(p => p.id === pkgId);
+  document.getElementById('buyModalImg').src = pkg.img;
+  document.getElementById('buyModalImg').alt = pkg.phone;
+  document.getElementById('buyModalTitle').textContent = pkg.phone;
+  document.getElementById('buyModalSub').textContent = `Group ${pkg.group} — ${pkg.days} Day Package`;
+  document.getElementById('buyModalPay').textContent = fmt(pkg.pay);
+  document.getElementById('buyModalDaily').textContent = '+' + fmt(pkg.daily) + '/day';
+  document.getElementById('buyModalDays').textContent = pkg.days + ' Days';
+  document.getElementById('proofInput').value = '';
+  document.getElementById('proofText').value = '';
+  document.getElementById('proofPreview').style.display = 'none';
+  document.getElementById('buyModal').style.display = 'flex';
+}
+function closeBuyModal() { document.getElementById('buyModal').style.display = 'none'; buyingPkgId = null; }
+
+function submitBuy() {
+  if (!buyingPkgId) return;
+  const proofFile = document.getElementById('proofInput').files[0];
+  const proofMsg = document.getElementById('proofText').value.trim();
+  if (!proofFile && !proofMsg) return showToast('Please upload screenshot or paste payment message', 'error');
+  const pkg = PACKAGES.find(p => p.id === buyingPkgId);
+  const orders = DB.packages();
+  const orderId = 'ORD' + now() + Math.random().toString(36).substr(2,4).toUpperCase();
+  orders.push({ id: orderId, userId: currentUser.phone, pkgId: buyingPkgId, status: 'pending', submitDate: now(), approveDate: null, buyDate: null, expiryDate: null, lastIncomeDate: null, proof: proofFile ? 'image_uploaded' : proofMsg, amount: pkg.pay });
+  DB.savePackages(orders);
+  closeBuyModal();
+  showToast('Package submitted! Waiting for admin approval.', 'success');
+  renderHome();
+}
+
+// ============================================================
+// MY PRODUCTS
+// ============================================================
+function renderMyProducts() {
+  if (!currentUser) return;
+  const orders = DB.packages().filter(o => o.userId === currentUser.phone);
+  const el = document.getElementById('myProductsList');
+  if (orders.length === 0) {
+    el.innerHTML = `<div class="bg-samsung-card border border-samsung-border rounded-xl p-6 text-center">
+      <img src="https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&h=200&fit=crop" alt="Samsung" class="w-full h-28 object-cover rounded-xl mb-3" loading="lazy" />
+      <p class="text-gray-400 text-sm mb-4">No packages yet</p>
+      <button onclick="gotoPage('packages')" class="btn-gold px-8 py-3 rounded-xl font-bold text-sm">Browse Packages</button>
+    </div>`;
+    return;
+  }
+  orders.sort((a,b) => b.submitDate - a.submitDate);
+  el.innerHTML = orders.map(o => {
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    const daysLeft = o.expiryDate ? Math.max(0, Math.ceil((o.expiryDate - now()) / 86400000)) : 0;
+    const totalDays = pkg ? pkg.days : 0;
+    const progress = totalDays > 0 ? Math.min(100, Math.round(((totalDays - daysLeft) / totalDays) * 100)) : 0;
+    let badge = '';
+    if (o.status==='active') badge='<span class="badge-active px-2 py-1 rounded-lg text-xs font-bold">Active</span>';
+    else if (o.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">Pending Approval</span>';
+    else if (o.status==='expired') badge='<span class="badge-expired px-2 py-1 rounded-lg text-xs font-bold">Expired</span>';
+    else if (o.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-2xl overflow-hidden">
+      <div class="relative">
+        <img src="${pkg.img}" alt="${pkg.phone}" class="w-full h-36 object-cover" loading="lazy" />
+        <div class="absolute inset-0 bg-gradient-to-t from-samsung-dark/90 via-transparent to-transparent flex items-end p-3">
+          <div class="flex items-center gap-2">${badge}<span class="text-gray-400 text-xs">#${o.id.slice(-6)}</span></div>
+        </div>
+      </div>
+      <div class="p-4 space-y-2 text-sm">
+        <h4 class="text-white font-black text-base">${pkg.phone}</h4>
+        <div class="flex justify-between"><span class="text-gray-400">Invested:</span><span class="text-white font-bold">${fmt(o.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Daily Income:</span><span class="text-green-400 font-bold">+${fmt(pkg.daily)}</span></div>
+        ${o.status==='active' ? `
+        <div class="flex justify-between"><span class="text-gray-400">Buy Date:</span><span class="text-white">${fmtDate(o.buyDate)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Expiry:</span><span class="text-white">${fmtDate(o.expiryDate)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Days Left:</span><span class="text-samsung-gold font-bold">${daysLeft} days</span></div>
+        <div class="mt-2"><div class="flex justify-between text-xs mb-1"><span class="text-gray-400">Progress</span><span class="text-white">${progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div></div>` : ''}
+        ${o.status==='pending' ? '<p class="text-yellow-400 text-xs">⏳ Waiting for admin approval...</p>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// TEAM PAGE
+// ============================================================
+function renderTeam() {
+  if (!currentUser) return;
+  const users = DB.users();
+  const orders = DB.packages();
+  const l1 = Object.values(users).filter(u => u.referredBy === currentUser.phone);
+  const l2 = [];
+  if (l1.length > 0) { const found = Object.values(users).find(u => l1.some(l => l.phone === u.referredBy)); if (found) l2.push(found); }
+  const l3 = [];
+  if (l2.length > 0) { const found = Object.values(users).find(u => l2.some(l => l.phone === u.referredBy)); if (found) l3.push(found); }
+  document.getElementById('teamL1Count').textContent = l1.length;
+  document.getElementById('teamL2Count').textContent = l2.length;
+  document.getElementById('teamL3Count').textContent = l3.length;
+  let totalRef = 0;
+  l1.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.30; }); });
+  l2.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.02; }); });
+  l3.forEach(u => { orders.filter(o=>o.userId===u.phone&&o.status==='active').forEach(o=>{ totalRef+=o.amount*0.01; }); });
+  document.getElementById('teamTotalEarnings').textContent = fmt(totalRef);
+  const listEl = document.getElementById('teamL1List');
+  if (l1.length === 0) { listEl.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No referrals yet. Share your code to invite friends!</p>'; return; }
+  listEl.innerHTML = l1.map(u => {
+    const myEarning = orders.filter(o=>o.userId===u.phone&&o.status==='active').reduce((s,o)=>s+o.amount*0.30, 0);
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full gradient-blue flex items-center justify-center text-white font-bold flex-shrink-0">${u.name.charAt(0).toUpperCase()}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white font-semibold text-sm truncate">${u.name}</p>
+        <p class="text-gray-400 text-xs">${u.phone}</p>
+      </div>
+      <div class="text-right flex-shrink-0">
+        <p class="text-green-400 font-bold text-sm">${fmt(myEarning)}</p>
+        <p class="text-gray-500 text-xs">earned</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// WITHDRAW PAGE
+// ============================================================
+function selectWithdrawNet(net) {
+  selectedWithdrawNet = net;
+  document.getElementById('wNetMTN').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNetAirtel').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNet' + net).classList.add('selected-' + net.toLowerCase());
+  document.getElementById('withdrawDetailsForm').style.display = 'block';
+  document.getElementById('wdNetworkLabel').textContent = net + ' Mobile Money';
+  document.getElementById('wdSubmitBtn').className = net === 'MTN' ? 'btn-mtn w-full py-4 rounded-xl font-black text-base' : 'btn-airtel w-full py-4 rounded-xl font-black text-base';
+  document.getElementById('wdSubmitBtn').textContent = 'Withdraw via ' + net;
+}
+
+function renderWithdraw() {
+  if (!currentUser) return;
+  document.getElementById('withdrawBalance').textContent = fmt(currentUser.balance || 0);
+  selectedWithdrawNet = '';
+  document.getElementById('withdrawDetailsForm').style.display = 'none';
+  document.getElementById('wNetMTN').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('wNetAirtel').classList.remove('selected-mtn','selected-airtel');
+  document.getElementById('withdrawAmount').value = '';
+  document.getElementById('withdrawCalc').style.display = 'none';
+  const history = DB.withdrawals().filter(w => w.userId === currentUser.phone);
+  const histEl = document.getElementById('withdrawHistory');
+  if (history.length === 0) { histEl.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No withdrawal requests yet</p>'; return; }
+  history.sort((a,b) => b.date - a.date);
+  histEl.innerHTML = history.map(w => {
+    const tax = Math.round(w.amount * 0.18);
+    const receive = w.amount - tax;
+    let badge = '';
+    if (w.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">⏳ Pending</span>';
+    else if (w.status==='paid') badge='<span class="badge-paid px-2 py-1 rounded-lg text-xs font-bold">✅ Paid</span>';
+    else if (w.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">❌ Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3">
+      <div class="flex items-center justify-between mb-2">${badge}<span class="text-gray-500 text-xs">${fmtDate(w.date)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Network:</span><span class="text-white font-bold">${w.network || '---'}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Requested:</span><span class="text-white font-bold">${fmt(w.amount)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400">−${fmt(tax)}</span></div>
+      <div class="flex justify-between text-sm"><span class="text-gray-400">You Receive:</span><span class="text-green-400 font-bold">${fmt(receive)}</span></div>
+      <p class="text-gray-500 text-xs mt-2">${w.walletName} · +256${w.walletPhone}</p>
+    </div>`;
+  }).join('');
+}
+
+function submitWithdraw() {
+  if (!selectedWithdrawNet) return showToast('Select MTN or Airtel', 'error');
+  const name = document.getElementById('wdName').value.trim();
+  const phone9 = document.getElementById('wdPhone').value.trim();
+  const amount = parseFloat(document.getElementById('withdrawAmount').value);
+  if (!name) return showToast('Enter your registered names', 'error');
+  if (!validateUgPhone(phone9)) return showToast('Enter valid 9-digit number starting with 7', 'error');
+  if (!amount || amount < 7000) return showToast('Minimum withdrawal is 7,000 UGX', 'error');
+  if (amount > (currentUser.balance || 0)) return showToast('Insufficient balance', 'error');
+  const today = new Date().toDateString();
+  const withdrawals = DB.withdrawals();
+  const todayCount = withdrawals.filter(w => w.userId === currentUser.phone && new Date(w.date).toDateString() === today && w.status !== 'rejected').length;
+  if (todayCount >= 2) return showToast('Maximum 2 withdrawals per day', 'error');
+  const wId = 'W' + now() + Math.random().toString(36).substr(2,4).toUpperCase();
+  withdrawals.push({ id: wId, userId: currentUser.phone, userName: currentUser.name, amount, date: now(), status: 'pending', network: selectedWithdrawNet, walletName: name, walletPhone: phone9 });
+  DB.saveWithdrawals(withdrawals);
+  showToast('Withdrawal request sent to admin!', 'success');
+  document.getElementById('wdName').value = '';
+  document.getElementById('wdPhone').value = '';
+  document.getElementById('withdrawAmount').value = '';
+  renderWithdraw();
+}
+
+// ============================================================
+// MINE PAGE
+// ============================================================
+function renderMine() {
+  if (!currentUser) return;
+  document.getElementById('mineName').textContent = currentUser.name;
+  document.getElementById('minePhone').textContent = currentUser.phone;
+  document.getElementById('mineBalance').textContent = fmt(currentUser.balance || 0);
+  document.getElementById('mineAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  const lastCI = currentUser.checkinDate;
+  const canCheckin = !lastCI || (now() - lastCI) >= 86400000;
+  const btn = document.getElementById('checkinBtn');
+  btn.disabled = !canCheckin;
+  btn.style.opacity = canCheckin ? '1' : '0.5';
+  document.getElementById('lastCheckinText').textContent = lastCI ? 'Last: ' + fmtDate(lastCI) : 'Never checked in';
+}
+
+function doCheckin() {
+  if (!currentUser) return;
+  if (currentUser.checkinDate && (now() - currentUser.checkinDate) < 86400000) return showToast('Come back tomorrow!', 'error');
+  const users = DB.users();
+  users[currentUser.phone].balance = (users[currentUser.phone].balance || 0) + 100;
+  users[currentUser.phone].checkinDate = now();
+  DB.saveUsers(users);
+  currentUser = users[currentUser.phone];
+  showToast('✅ +100 UGX added to your balance!', 'success');
+  renderMine();
+}
+
+// ============================================================
+// DAILY INCOME PROCESSOR
+// ============================================================
+function processDailyIncome() {
+  const orders = DB.packages();
+  const users = DB.users();
+  let changed = false;
+  orders.forEach(o => {
+    if (o.status !== 'active') return;
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    if (!pkg || !o.lastIncomeDate) return;
+    const n = now();
+    if (o.expiryDate && n >= o.expiryDate) { o.status = 'expired'; changed = true; return; }
+    const daysSince = Math.floor((n - o.lastIncomeDate) / 86400000);
+    if (daysSince >= 1 && users[o.userId]) {
+      users[o.userId].balance = (users[o.userId].balance || 0) + (pkg.daily * daysSince);
+      o.lastIncomeDate = n;
+      changed = true;
+    }
+  });
+  if (changed) { DB.savePackages(orders); DB.saveUsers(users); refreshUser(); }
+}
+
+// ============================================================
+// SHARING
+// ============================================================
+function copyRefCode() { if (currentUser) copyText(currentUser.refCode); }
+
+function shareRefLink() {
+  const code = currentUser ? currentUser.refCode : '';
+  const url = window.location.href.split('?')[0] + '?ref=' + code;
+  const text = `💰 Join Samsung Earning Platform!\n📱 Invest in Samsung packages & earn daily!\n🎁 Use my referral code: ${code}\n🔗 ${url}`;
+  if (navigator.share) {
+    navigator.share({ title: 'Samsung Earning Platform', text, url }).catch(() => { copyText(text); showToast('Link copied — share with friends!', 'success'); });
+  } else { copyText(text); showToast('Referral link copied!', 'success'); }
+}
+
+function shareApp() {
+  const url = window.location.href.split('?')[0];
+  const text = `💰 Samsung Earning Platform\n📱 Invest in Samsung phones & earn daily income!\n🎁 +100 UGX daily check-in bonus\n💸 Fast MTN/Airtel withdrawals\n🔗 ${url}`;
+  if (navigator.share) {
+    navigator.share({ title: 'Samsung Earning Platform', text, url }).catch(() => { copyText(text); showToast('Link copied!', 'success'); });
+  } else { copyText(text); showToast('Link copied — share with friends!', 'success'); }
+}
+
+// Auto-apply referral from URL
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (ref) {
+    setTimeout(() => {
+      const refInput = document.getElementById('regRef');
+      if (refInput) refInput.value = ref;
+      switchAuthTab('register');
+    }, 600);
+  }
+})();
+
+// ============================================================
+// ADMIN
+// ============================================================
+function openAdminLogin() {
+  document.getElementById('adminLoginName').value = '';
+  document.getElementById('adminLoginPass').value = '';
+  document.getElementById('adminLoginModal').style.display = 'flex';
+}
+
+function verifyAdminLogin() {
+  const name = document.getElementById('adminLoginName').value.trim();
+  const pass = document.getElementById('adminLoginPass').value.trim();
+  if (name === 'Nabakooza' && pass === 'nabakooza123') {
+    document.getElementById('adminLoginModal').style.display = 'none';
+    // Show admin within app or from auth
+    document.getElementById('view-auth').classList.remove('active');
+    document.getElementById('view-auth').style.display = 'none';
+    document.getElementById('appWrapper').style.display = 'block';
+    gotoPage('admin');
+  } else {
+    showToast('Invalid admin credentials', 'error');
+  }
+}
+
+function switchAdminTab(tab) {
+  currentAdminTab = tab;
+  ['packages','withdrawals','users'].forEach(t => {
+    const key = t.charAt(0).toUpperCase() + t.slice(1);
+    const btn = document.getElementById('adminTab' + key);
+    const panel = document.getElementById('adminPanel' + key);
+    if (btn) btn.classList.toggle('active-tab', t === tab);
+    if (panel) panel.style.display = t === tab ? 'block' : 'none';
+  });
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const users = DB.users();
+  const orders = DB.packages();
+  const withdrawals = DB.withdrawals();
+  document.getElementById('adminTotalUsers').textContent = Object.keys(users).length;
+  document.getElementById('adminActivePkgs').textContent = orders.filter(o=>o.status==='active').length;
+  document.getElementById('adminPendingPkgs').textContent = orders.filter(o=>o.status==='pending').length;
+  const pendingW = withdrawals.filter(w=>w.status==='pending').length;
+  document.getElementById('adminPendingWithdraws').textContent = pendingW;
+  document.getElementById('adminWithdrawBadge').style.display = pendingW > 0 ? 'block' : 'none';
+  if (currentAdminTab === 'packages') renderAdminPackages();
+  if (currentAdminTab === 'withdrawals') renderAdminWithdrawals();
+  if (currentAdminTab === 'users') renderAdminUsers();
+}
+
+function renderAdminPackages() {
+  const orders = DB.packages();
+  const users = DB.users();
+  const el = document.getElementById('adminPkgList');
+  if (orders.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No package orders</p>'; return; }
+  orders.sort((a,b) => b.submitDate - a.submitDate);
+  el.innerHTML = orders.map(o => {
+    const pkg = PACKAGES.find(p => p.id === o.pkgId);
+    const user = users[o.userId] || {};
+    let badge = '';
+    if (o.status==='active') badge='<span class="badge-active px-2 py-1 rounded-lg text-xs font-bold">Active</span>';
+    else if (o.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">Pending</span>';
+    else if (o.status==='expired') badge='<span class="badge-expired px-2 py-1 rounded-lg text-xs font-bold">Expired</span>';
+    else if (o.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">Rejected</span>';
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 mb-3">
+      <div class="flex items-start gap-3 mb-3">
+        <img src="${pkg ? pkg.img : ''}" alt="${pkg ? pkg.phone : ''}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0" loading="lazy" />
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1">${badge}<span class="text-gray-500 text-xs">${fmtDate(o.submitDate)}</span></div>
+          <p class="text-white font-bold text-sm">${user.name || 'Unknown'}</p>
+          <p class="text-gray-400 text-xs">${user.phone || '---'}</p>
+          <p class="text-samsung-gold text-xs font-semibold mt-1">${pkg ? pkg.phone : 'Unknown'} — ${fmt(o.amount)}</p>
+        </div>
+      </div>
+      ${o.proof && o.proof !== 'image_uploaded' ? `<div class="bg-samsung-dark rounded-xl p-3 mb-3"><p class="text-gray-400 text-xs mb-1">Payment proof message:</p><p class="text-white text-xs">${o.proof.substring(0,200)}</p></div>` : ''}
+      ${o.status==='active' ? `<p class="text-gray-500 text-xs mb-3">Expires: ${fmtDate(o.expiryDate)}</p>` : ''}
+      <div class="flex gap-2 flex-wrap">
+        ${o.status==='pending' ? `<button onclick="adminApprovePkg('${o.id}')" class="btn-gold px-3 py-2 rounded-lg text-xs font-bold flex-1">✅ Approve</button><button onclick="adminRejectPkg('${o.id}')" class="border border-red-500 text-red-400 px-3 py-2 rounded-lg text-xs font-bold flex-1">❌ Reject</button>` : ''}
+        ${o.status==='active' ? `<button onclick="openExtend('${o.id}')" class="border border-samsung-border text-gray-300 px-3 py-2 rounded-lg text-xs font-bold flex-1">📅 Extend</button>` : ''}
+        <button onclick="adminDeletePkg('${o.id}')" class="border border-red-900 text-red-500 px-3 py-2 rounded-lg text-xs font-bold">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminApprovePkg(orderId) {
+  const orders = DB.packages();
+  const users = DB.users();
+  const idx = orders.findIndex(o => o.id === orderId);
+  if (idx < 0) return;
+  const o = orders[idx];
+  const pkg = PACKAGES.find(p => p.id === o.pkgId);
+  if (!pkg) return;
+  o.status = 'active'; o.approveDate = now(); o.buyDate = now();
+  o.expiryDate = now() + pkg.days * 86400000; o.lastIncomeDate = now();
+  // Referral commissions
+  const buyer = users[o.userId];
+  if (buyer && buyer.referredBy && users[buyer.referredBy]) {
+    users[buyer.referredBy].balance = (users[buyer.referredBy].balance || 0) + Math.round(o.amount * 0.30);
+    const l1u = users[buyer.referredBy];
+    if (l1u.referredBy && users[l1u.referredBy]) {
+      users[l1u.referredBy].balance = (users[l1u.referredBy].balance || 0) + Math.round(o.amount * 0.02);
+      const l2u = users[l1u.referredBy];
+      if (l2u.referredBy && users[l2u.referredBy]) users[l2u.referredBy].balance = (users[l2u.referredBy].balance || 0) + Math.round(o.amount * 0.01);
+    }
+  }
+  DB.savePackages(orders); DB.saveUsers(users);
+  showToast('Package approved! Daily income started.', 'success');
+  renderAdmin();
+}
+
+function adminRejectPkg(orderId) {
+  const orders = DB.packages();
+  const idx = orders.findIndex(o => o.id === orderId);
+  if (idx >= 0) { orders[idx].status = 'rejected'; DB.savePackages(orders); renderAdmin(); showToast('Package rejected', 'info'); }
+}
+
+function adminDeletePkg(orderId) {
+  DB.savePackages(DB.packages().filter(o => o.id !== orderId));
+  renderAdmin(); showToast('Deleted', 'info');
+}
+
+function openExtend(orderId) { extendingId = orderId; document.getElementById('extendDays').value = ''; document.getElementById('extendModal').style.display = 'flex'; }
+function confirmExtend() {
+  const days = parseInt(document.getElementById('extendDays').value);
+  if (!days || days < 1) return showToast('Enter valid days', 'error');
+  const orders = DB.packages();
+  const idx = orders.findIndex(o => o.id === extendingId);
+  if (idx >= 0 && orders[idx].expiryDate) {
+    orders[idx].expiryDate += days * 86400000;
+    DB.savePackages(orders);
+    document.getElementById('extendModal').style.display = 'none';
+    showToast(`Extended by ${days} days!`, 'success'); renderAdmin();
+  }
+}
+
+function renderAdminWithdrawals() {
+  const withdrawals = DB.withdrawals();
+  const users = DB.users();
+  const el = document.getElementById('adminWithdrawList');
+  if (withdrawals.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No withdrawal requests</p>'; return; }
+  withdrawals.sort((a,b) => b.date - a.date);
+  el.innerHTML = withdrawals.map(w => {
+    const tax = Math.round(w.amount * 0.18);
+    const receive = w.amount - tax;
+    let badge = '';
+    if (w.status==='pending') badge='<span class="badge-pending px-2 py-1 rounded-lg text-xs font-bold">⏳ Pending</span>';
+    else if (w.status==='paid') badge='<span class="badge-paid px-2 py-1 rounded-lg text-xs font-bold">✅ Paid</span>';
+    else if (w.status==='rejected') badge='<span class="badge-rejected px-2 py-1 rounded-lg text-xs font-bold">❌ Rejected</span>';
+    const netIcon = w.network === 'MTN' ?
+      `<div class="w-8 h-8 mtn-logo rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-black font-black text-xs">MTN</span></div>` :
+      `<div class="w-8 h-8 airtel-logo rounded-lg flex items-center justify-center flex-shrink-0"><span class="text-white font-black text-xs">Air</span></div>`;
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-4 mb-3">
+      <div class="flex items-center justify-between mb-3">${badge}<span class="text-gray-500 text-xs">${fmtDate(w.date)} ${fmtTime(w.date)}</span></div>
+      <div class="flex items-center gap-3 mb-3">
+        ${netIcon}
+        <div>
+          <p class="text-white font-bold text-sm">${w.userName || w.userId}</p>
+          <p class="text-gray-400 text-xs">${w.walletName} · +256${w.walletPhone}</p>
+          <p class="text-gray-400 text-xs">${w.network} Mobile Money</p>
+        </div>
+      </div>
+      <div class="bg-samsung-dark rounded-xl p-3 mb-3 text-sm space-y-1">
+        <div class="flex justify-between"><span class="text-gray-400">Requested:</span><span class="text-white font-bold">${fmt(w.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-gray-400">Tax (18%):</span><span class="text-red-400">−${fmt(tax)}</span></div>
+        <div class="flex justify-between font-bold"><span class="text-gray-400">Send to User:</span><span class="text-green-400 text-base">${fmt(receive)}</span></div>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        ${w.status==='pending' ? `
+          <button onclick="adminMarkPaid('${w.id}')" class="btn-gold px-3 py-2 rounded-lg text-xs font-bold flex-1">✅ Mark as Paid</button>
+          <button onclick="adminRejectWithdraw('${w.id}')" class="border border-red-500 text-red-400 px-3 py-2 rounded-lg text-xs font-bold flex-1">❌ Reject</button>
+        ` : ''}
+        <button onclick="adminDeleteWithdraw('${w.id}')" class="border border-red-900 text-red-500 px-3 py-2 rounded-lg text-xs font-bold">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminMarkPaid(wId) {
+  const withdrawals = DB.withdrawals();
+  const users = DB.users();
+  const idx = withdrawals.findIndex(w => w.id === wId);
+  if (idx < 0) return;
+  const w = withdrawals[idx];
+  if (users[w.userId]) {
+    users[w.userId].balance = Math.max(0, (users[w.userId].balance || 0) - w.amount);
+    DB.saveUsers(users);
+  }
+  w.status = 'paid';
+  DB.saveWithdrawals(withdrawals);
+  if (currentUser && currentUser.phone === w.userId) currentUser = users[w.userId];
+  showToast('Marked as Paid. Balance deducted.', 'success');
+  renderAdmin();
+}
+
+function adminRejectWithdraw(wId) {
+  const withdrawals = DB.withdrawals();
+  const idx = withdrawals.findIndex(w => w.id === wId);
+  if (idx >= 0) { withdrawals[idx].status = 'rejected'; DB.saveWithdrawals(withdrawals); renderAdmin(); showToast('Withdrawal rejected', 'info'); }
+}
+
+function adminDeleteWithdraw(wId) {
+  DB.saveWithdrawals(DB.withdrawals().filter(w => w.id !== wId));
+  renderAdmin(); showToast('Deleted', 'info');
+}
+
+function renderAdminUsers() {
+  const users = DB.users();
+  const orders = DB.packages();
+  const el = document.getElementById('adminUserList');
+  const list = Object.values(users);
+  if (list.length === 0) { el.innerHTML = '<p class="text-gray-500 text-sm text-center py-6">No users yet</p>'; return; }
+  list.sort((a,b) => b.joinDate - a.joinDate);
+  el.innerHTML = list.map(u => {
+    const active = orders.filter(o=>o.userId===u.phone&&o.status==='active').length;
+    return `<div class="bg-samsung-card border border-samsung-border rounded-xl p-3 mb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full gradient-blue flex items-center justify-center text-white font-bold text-sm flex-shrink-0">${u.name.charAt(0).toUpperCase()}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-white font-semibold text-sm truncate">${u.name}</p>
+          <p class="text-gray-400 text-xs">${u.phone}</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="text-samsung-gold font-bold text-sm">${fmt(u.balance||0)}</p>
+          <p class="text-gray-500 text-xs">${active} active</p>
+        </div>
+      </div>
+      <div class="mt-2 flex gap-3 text-xs text-gray-500 flex-wrap">
+        <span>Joined: ${fmtDate(u.joinDate)}</span>
+        <span>Code: ${u.refCode}</span>
+        ${u.referredBy ? `<span>Ref by: ${u.referredBy.slice(-6)}</span>` : ''}
+      </div>
+      <div class="mt-2 flex gap-2">
+        <button onclick="adminDeleteUser('${u.phone}')" class="border border-red-900 text-red-500 px-3 py-1.5 rounded-lg text-xs font-bold">🗑 Delete User</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminDeleteUser(phone) {
+  const users = DB.users();
+  delete users[phone];
+  DB.saveUsers(users);
+  renderAdmin(); showToast('User deleted', 'info');
+}
+
+// ============================================================
+// DOM READY
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Proof image preview
+  document.getElementById('proofInput').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => { document.getElementById('proofImg').src = e.target.result; document.getElementById('proofPreview').style.display = 'block'; };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Withdraw amount calculator
+  document.getElementById('withdrawAmount').addEventListener('input', function() {
+    const amt = parseFloat(this.value);
+    const calcEl = document.getElementById('withdrawCalc');
+    if (amt > 0) {
+      calcEl.style.display = 'block';
+      const tax = Math.round(amt * 0.18);
+      document.getElementById('calcRequested').textContent = fmt(amt);
+      document.getElementById('calcTax').textContent = fmt(tax);
+      document.getElementById('calcReceive').textContent = fmt(amt - tax);
+    } else { calcEl.style.display = 'none'; }
+  });
+
+  // Auto-login
+  const savedPhone = DB.currentUser();
+  if (savedPhone) {
+    const users = DB.users();
+    if (users[savedPhone]) {
+      currentUser = users[savedPhone];
+      showApp();
+      return;
+    }
+  }
+  document.getElementById('view-auth').style.display = 'flex';
+  document.getElementById('view-auth').classList.add('active');
+});
+</script>
+
+
+</body></html>
 
